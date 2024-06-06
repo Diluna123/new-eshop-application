@@ -23,3 +23,56 @@
     
     position: relative;
 }
+.signin.moveR{
+    transform: translateX(-100%);
+    opacity: 0;
+    position: absolute;
+
+}
+.forgotPs{
+    transform: translateX(100%);
+    opacity: 0;
+    transition: .3s;
+    position: absolute;
+}
+
+.forgotPs.move2{
+    transform: translateX(0%);
+    opacity: 1;
+    position: relative;
+}
+.forgotPs.moveLeft{
+    transform: translateX(-100%);
+    opacity: 0;
+    position: absolute;
+}
+.forgotPsverification{
+    transform: translateX(100%);
+    opacity: 0;
+    transition: .3s;
+    position: absolute;
+}
+.forgotPsverification.move3{
+    transform: translateX(0%);
+    opacity: 1;
+    position: relative;
+
+}
+.forgotPsverification.moveLeft2{
+    transform: translateX(-100%);
+    opacity: 0;
+    position: absolute;
+}
+.addNewPs{
+    transform: translateX(100%);
+    opacity: 0;
+    transition: .3s;
+    position: absolute;
+
+}
+.addNewPs.move4{
+    transform: translateX(0%);
+    opacity: 1;
+    position: relative;
+
+}

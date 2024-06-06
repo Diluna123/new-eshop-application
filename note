@@ -1,79 +1,57 @@
-<div class="container2">
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
+<div class="container3">
+  <div class="bar"></div>
+  <div class="bar"></div>
+  <div class="bar"></div>
+  <div class="bar"></div>
 </div>
 
 <style>
-  .container2 {
-    --uib-size: 40px;
+  .container3 {
+    --uib-size: 35px;
     --uib-color: black;
-    --uib-speed: 1.3s;
-    --uib-dot-size: 25%;
-    position: relative;
-    display: inline-block;
-    height: var(--uib-size);
+    --uib-speed: 1s;
+    --uib-stroke: 3.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: var(--uib-size);
-    animation: spin var(--uib-speed) infinite linear;
+    height: calc(var(--uib-size) * 0.9);
   }
 
-  .dot {
-    position: absolute;
-    left: calc(50% - var(--uib-dot-size) / 2);
+  .bar {
+    width: var(--uib-stroke);
     height: 100%;
-    width: var(--uib-dot-size);
-  }
-
-  .dot:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 0%;
-    width: 100%;
-    padding-bottom: 100%;
     background-color: var(--uib-color);
-    border-radius: 50%;
     transition: background-color 0.3s ease;
   }
 
-  .dot:nth-child(1) {
-    transform: rotate(120deg);
+  .bar:nth-child(1) {
+    animation: grow var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.45)
+      infinite;
   }
 
-  .dot:nth-child(1)::after {
-    animation: wobble var(--uib-speed) infinite ease-in-out;
+  .bar:nth-child(2) {
+    animation: grow var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.3)
+      infinite;
   }
 
-  .dot:nth-child(2) {
-    transform: rotate(-120deg);
+  .bar:nth-child(3) {
+    animation: grow var(--uib-speed) ease-in-out calc(var(--uib-speed) * -0.15)
+      infinite;
   }
 
-  .dot:nth-child(2)::after {
-    animation: wobble var(--uib-speed) infinite ease-in-out;
+  .bar:nth-child(4) {
+    animation: grow var(--uib-speed) ease-in-out infinite;
   }
 
-  .dot:nth-child(3)::after {
-    animation: wobble var(--uib-speed) infinite ease-in-out;
-  }
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  @keyframes wobble {
+  @keyframes grow {
     0%,
     100% {
-      transform: translateY(0%);
+      transform: scaleY(0.3);
     }
+
     50% {
-      transform: translateY(65%);
+      transform: scaleY(1);
     }
   }
 </style>
-

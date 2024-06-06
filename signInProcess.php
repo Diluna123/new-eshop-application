@@ -21,7 +21,7 @@ if(empty($email)){
     $rs = Database::search("SELECT * FROM `cutomer_details` WHERE `email` = '$email'");
     $num = $rs->num_rows;
     if($num == 0){
-        echo "Email Does Not Exists";
+        echo "Email Does Not Exists Please Create An Account or Check Your Email";
     }else{
 
         $data = $rs->fetch_assoc();
