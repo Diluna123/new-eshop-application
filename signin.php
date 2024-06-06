@@ -115,16 +115,30 @@
 
                 <div class="col-lg-12 ">
                     <h3 class="text-center mb-4 mt-3">Sign In</h3>
+                    <?php
+
+                    $email = "";
+                    $pw = "";
+
+                    if (isset($_COOKIE["email"])) {
+                        $email = $_COOKIE["email"];
+                    }
+                    if (isset($_COOKIE["password"])) {
+                        $pw = $_COOKIE["password"];
+                    }
+
+
+                    ?>
 
 
                     <label for="" class="form-label">E mail :</label>
-                    <input class="form-control border-warning mb-3" type="email" name="" id="l-email" placeholder="E-mail" onclick="hideAlert();">
+                    <input class="form-control border-warning mb-3" type="email" name="" id="l-email" value="<?php echo $email; ?>" placeholder="E-mail" onclick="hideAlert();">
 
                     <label for="" class="form-label">Password :</label>
-                    <input class="form-control border-warning mb-3" type="password" name="" id="l-psw" placeholder="Password" onclick="hideAlert();">
+                    <input class="form-control border-warning mb-3" type="password" name="" id="l-psw" value="<?php echo $pw; ?>" placeholder="Password" onclick="hideAlert();">
 
                     <div class="form-checkn  mb-4">
-                        <input type="checkbox" class="form-check-input" name="" id="checkbox">
+                        <input type="checkbox" class="form-check-input" name="" id="checkbox" <?php if(isset($_COOKIE["email"])) {echo("checked");}?>>
                         <label for="checkbox" class="form-check-label">Remember Me</label>
                     </div>
 

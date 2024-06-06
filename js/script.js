@@ -76,11 +76,15 @@ function signup() {
 function signIn() {
   const email = document.getElementById("l-email").value;
   const password = document.getElementById("l-psw").value;
+  const checkbox = document.getElementById("checkbox");
   const alertbox = document.getElementById("alert-d");
+
+  
 
   const form = new FormData();
   form.append("email", email);
   form.append("password", password);
+  form.append("cResults", checkbox.checked);
 
   const request = new XMLHttpRequest();
 
@@ -99,6 +103,7 @@ function signIn() {
   };
   request.open("POST", "signInProcess.php", true);
   request.send(form);
+
 }
 
 function hideAlert(){
