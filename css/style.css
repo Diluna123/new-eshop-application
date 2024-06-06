@@ -1,0 +1,25 @@
+.signin{
+    transform: 0;
+    opacity: 1;
+    transition: .3s;
+}
+
+.signin.move{
+    transform: translateX(100%);
+    opacity: 0;
+    position: absolute;
+}
+
+.signup{
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: .3s;
+    position: absolute;
+}
+
+.signup.move1{
+    transform: translateX(0%);
+    opacity: 1;
+    
+    position: relative;
+}
