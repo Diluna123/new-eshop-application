@@ -165,8 +165,8 @@
 
 <body>
 
-    <div class="container">
-        <div class="row vh-100 d-flex justify-content-center align-items-center">
+    <div class="container overflow-hidden">
+        <div class="row overflow-hidden vh-100 d-flex justify-content-center align-items-center">
             <!-- Sign In Section -->
             <div class="col-10 col-lg-4  signin " id="signin">
                 <div class="row text-center">
@@ -310,13 +310,13 @@
 
 
                     <label for="" class="form-label">Verfication Code :</label>
-                    <input class="form-control border-warning mb-3" type="text" name="" id="v-code" placeholder="Verification Code" onclick="hideAlert();">
+                    <input class="form-control border-warning mb-3" type="text" name="" id="ve-code" placeholder="Verification Code" onclick="hideAlert();">
 
 
 
 
 
-                    <div class="alert alert-danger alert-dismissible fade show d-none" role="alert" id="alert-d-forgoPs">
+                    <div class="alert alert-danger alert-dismissible fade show d-none" role="alert" id="alert-d-verify">
 
 
                     </div>
@@ -327,7 +327,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <button class="btn btn-warning mt-3 col-12" onclick="changForm4();">Next</button>
+                            <button class="btn btn-warning mt-3 col-12" onclick=" verify();">Next</button>
 
                         </div>
 
@@ -360,13 +360,13 @@
                     <input class="form-control border-warning mb-3" type="text" name="" id="newPsw" placeholder="New Password" onclick="hideAlert();">
 
                     <label for="" class="form-label">Confirm Password :</label>
-                    <input class="form-control border-warning mb-3" type="text" name="" id="CnewPsw" placeholder="Confirm Password" onclick="hideAlert();">
+                    <input class="form-control border-warning mb-3" type="text" name="" id="cnewPsw" placeholder="Confirm Password" onclick="hideAlert();">
 
 
 
 
 
-                    <div class="alert alert-danger alert-dismissible fade show d-none" role="alert" id="alert-d-forgoPs">
+                    <div class="alert alert-danger alert-dismissible fade show d-none" role="alert" id="alert-d-changps">
 
 
                     </div>
@@ -377,7 +377,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <button class="btn btn-warning mt-3 col-12" onclick="">Finish</button>
+                            <button class="btn btn-warning mt-3 col-12" onclick="changPs();">Finish</button>
 
                         </div>
 

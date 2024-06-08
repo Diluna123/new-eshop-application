@@ -1,3 +1,31 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// my functions
 function changForm() {
   const signin = document.getElementById("signin");
   const signup = document.getElementById("signup");
@@ -5,6 +33,9 @@ function changForm() {
 
   signin.classList.toggle("move");
   signup.classList.toggle("move1");
+ 
+  
+
   
 }
 function changForm2() {
@@ -54,9 +85,10 @@ function forgotPs(){
     }
     else{
       alertBox.className = "alert alert-danger d-block";
+      loadingve.className ="d-none";
 
       alertBox.innerHTML = this.responseText;
-      emVnBtn.innerHTML ='Next';
+      ;
 
     }
   }
@@ -85,6 +117,8 @@ function changForm4() {
   addNewPs.classList.toggle("move4");
 
 }
+
+
 
 
 
@@ -194,3 +228,66 @@ function hideAlert(){
   alertbox.className = "d-none";
 
 }
+// changForm4();
+
+function verify (){
+  const email = document.getElementById("fps-email").value;
+  const vCode = document.getElementById("ve-code").value;
+
+  const alertBox = document.getElementById("alert-d-verify");
+  const form = new FormData();
+  form.append("usermail", email);
+  form.append("vCode", vCode);
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        changForm4();
+        alertBox.className = "d-none";
+      } else {
+        alertBox.className = "alert alert-danger d-block";
+        alertBox.innerHTML = this.responseText;
+        
+      }
+    }
+  };
+  request.open("POST", "verifyProcess.php", true);
+  request.send(form);
+
+}
+
+function changPs(){
+
+  const nPs = document.getElementById("newPsw").value;
+  const cnPs = document.getElementById("cnewPsw").value;
+  const email = document.getElementById("fps-email").value;
+  const alertBox = document.getElementById("alert-d-changps");
+
+  const form = new FormData();
+
+  form.append("nPs", nPs);
+  form.append("cnPs", cnPs);
+  form.append("email", email);
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        alertBox.className ="alert alert-success d-block";
+        alertBox.innerHTML = "Password changed successfully";
+      
+        window.location.reload();
+      } else {
+        alert(this.responseText);
+        alertBox.className ="lert alert-danger d-block";
+        alertBox.innerHTML = this.responseText;
+      }
+    }
+  };
+  request.open("POST", "changePswProcess.php", true);
+  request.send(form);
+
+
+
+}
+
+
