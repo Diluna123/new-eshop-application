@@ -1,36 +1,46 @@
+body{
+    overflow: hidden;
+}
+
 .signin{
-    transform: 0;
-    opacity: 1;
+   
+    opacity: 1; 
     transition: .3s;
+    transform: translateX(0%);
+    overflow-y: hidden;
+ 
 }
 
 .signin.move{
-    transform: translateX(100%);
-    opacity: 0;
+    
+    opacity: 0; 
+    
+    transform: translateX(200%);
     position: absolute;
 }
 
 .signup{
-    transform: translateX(-100%);
+    
     opacity: 0;
-    transition: .3s;
+    transition:  .3s;
+    transform: translateX(-200%);
     position: absolute;
 }
 
 .signup.move1{
     transform: translateX(0%);
-    opacity: 1;
-    
+    opacity: 1; 
     position: relative;
+    
 }
 .signin.moveR{
-    transform: translateX(-100%);
+    transform: translateX(-200%);
     opacity: 0;
     position: absolute;
 
 }
 .forgotPs{
-    transform: translateX(100%);
+    transform: translateX(200%);
     opacity: 0;
     transition: .3s;
     position: absolute;
@@ -42,12 +52,12 @@
     position: relative;
 }
 .forgotPs.moveLeft{
-    transform: translateX(-100%);
+    transform: translateX(-200%);
     opacity: 0;
     position: absolute;
 }
 .forgotPsverification{
-    transform: translateX(100%);
+    transform: translateX(200%);
     opacity: 0;
     transition: .3s;
     position: absolute;
@@ -59,12 +69,12 @@
 
 }
 .forgotPsverification.moveLeft2{
-    transform: translateX(-100%);
+    transform: translateX(-200%);
     opacity: 0;
     position: absolute;
 }
 .addNewPs{
-    transform: translateX(100%);
+    transform: translateX(200%);
     opacity: 0;
     transition: .3s;
     position: absolute;
@@ -75,4 +85,47 @@
     opacity: 1;
     position: relative;
 
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+}
+
+.hero-section {
+    background: url('hero.jpg') no-repeat center center/cover;
+    padding: 100px 0;
+}
+
+.brand-logos, .best-sellers, .latest-news, .new-collection, .special-offer {
+    background-color: #333;
+}
+
+.card {
+    border: none;
+}
+
+.card-img {
+    opacity: 0.8;
+}
+
+.card-img-overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+#countdown div {
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 1.5rem;
+}
+
+.subscription .form-inline input {
+    width: 300px;
+}
+
+.footer {
+    background-color: #222;
 }
