@@ -270,7 +270,7 @@
 
                         </div>
                         <div class="col-lg-6">
-                            <button class="btn btn-warning mt-3 col-12 text-center" onclick=" forgotPs();" id="em-v-nbtn">Next</button>
+                            <button class="btn btn-warning mt-3 col-12 text-center" onclick=" forgotPs();" id="em-v-nbtn">Send</button>
 
                         </div>
 
