@@ -129,3 +129,8 @@ body {
 .footer {
     background-color: #222;
 }
+
+.blob-motion{
+    position: absolute;
+    transform: translateY(-20%);
+}
