@@ -20,11 +20,14 @@
       font-size: 90px;
 
     }
-    .mycd{
+
+    .mycd {
       transition: .3s;
+      height: 95%;
 
     }
-    .mycd:hover{
+
+    .mycd:hover {
       cursor: pointer;
       background-color: #bdbdbd;
     }
@@ -35,12 +38,69 @@
       align-items: stretch;
     }
 
+    .my-p-c {
+      transition: .3s;
+      cursor: pointer;
+      height: 95%;
+
+
+    }
+
+    .btn-cl {
+      margin: 15px 20px 5px 20px;
+      opacity: 0;
+      transform: translateY(-5px);
+      transition: .3s;
+
+    }
+
+    .my-p-c:hover {
+      box-shadow:
+        2.4px 4.4px 24.5px rgba(0, 0, 0, 0.02),
+        4.4px 8px 37.4px rgba(0, 0, 0, 0.028),
+        6.3px 11.4px 43.6px rgba(0, 0, 0, 0.035),
+        8.2px 14.9px 46.4px rgba(0, 0, 0, 0.042),
+        10.6px 19.2px 50.3px rgba(0, 0, 0, 0.05),
+        16px 29px 88px rgba(0, 0, 0, 0.07);
+
+
+    }
+
+    .my-p-c:hover .btn-cl {
+      opacity: 1;
+      transform: translateY(0px);
+
+    }
+
+    .btn-wrap {
+      transition: .3s;
+      height: 10px;
+      opacity: 0;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .my-p-c:hover .btn-wrap {
+      background-color: transparent;
+      backdrop-filter: blur(5px);
+      height: 28%;
+      opacity: 1;
+      box-shadow:
+        0px 0px 0.2px rgba(0, 0, 0, 0.034),
+        0px 0px 10.6px rgba(0, 0, 0, 0.049),
+        0px 0px 22.8px rgba(0, 0, 0, 0.06),
+        0px 0px 36.1px rgba(0, 0, 0, 0.071),
+        0px 0px 50.2px rgba(0, 0, 0, 0.086),
+        0px 0px 66px rgba(0, 0, 0, 0.13);
+    }
+
+
     #sidebar {
       min-width: 250px;
       max-width: 250px;
       background: #343a40;
       color: #fff;
       transition: all 0.3s;
+
     }
 
     #sidebar.active {
@@ -196,68 +256,159 @@
 
         <!-- Manage Products Section Content -->
         <div id="manage-products" class="content-section d-none">
-          <h2 class="mb-5">Manage Products</h2>
-          
+          <h2 class="mb-1">Manage Products</h2>
+          <p class="form-text mb-5 text-secondary">To Add new Products, Edite Products, Active and Inactive products</p>
+
 
           <!-- cardds -->
           <div class="col-12" id="mytb-products">
-            <div class="row row-cols-1 row-cols-md-6 g-4">
-              <?php
+            <div class="row row-cols-1 row-cols-md-1 g-4">
+              <div class="col">
+                <div class="card border-secondary  d-flex justify-content-center align-items-center mycd" onclick="openAddProductModal();">
 
-              $resP = Database::search("SELECT * FROM `products` JOIN `catogerys` ON `products`.`catogerys_cat_id` = `catogerys`.`cat_id` JOIN `brand` ON `products`.`brand_br_id` = `brand`. `br_id` ORDER BY `products`.`p_id` ASC ");
-              $numP = $resP->num_rows;
-              if ($numP > 0) {
+                  <div class="p-5 border-secondary text-center rounded-5">
+                    <button class="btn bg-transparent btn-sm btn-outline-secondary rounded-5 border-0 mybtn opacity-25"><i class="fas fa-plus"></i></button>
+                    <h3 class="text-secondary">Add Products</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3 mb-4">
+              <div class="col-lg-8">
+                <h3 class="">Your Products</h3>
+              </div>
+              <div class="col-lg-4">
+                <div class="input-group">
+                  <select name="" class="form-control form-control-sm" id="" placeholder="Search" onchange="searchAdProduct(this.value);">
+                    <option value="00">All</option>
+                    <?php
 
-                for ($x = 0; $x < $numP; $x++) {
-                  $pData = $resP->fetch_assoc();
+                    $res = Database::search("SELECT * FROM `catogerys`");
+                    $nums = $res->num_rows;
+                    for ($x = 0; $x < $nums; $x++) {
+                      $dataa = $res->fetch_assoc();
 
-              ?>
-                  <div class="col">
-                    <div class="card  border-success h-100">
-                      <img src="<?php echo $pData["p_img"]; ?>" class="card-img-top" alt="...">
-                      <div class="card-body">
-                        <h6 class="card-title"><?php echo $pData["p_title"]; ?> (<?php echo $pData["brand_name"]; ?>)</h6>
-                        <h6 class="card-text">Qty <?php echo $pData["qty"]; ?> Left</h6>
-                        <p class="card-text">Rs.<?php echo $pData["price"]; ?></p>
-                        <div class="card-footer">
-                          <div class="row">
-                            <button class="btn btn-sm btn-outline-warning" onclick='openUpdateProductModal(<?php echo $pData["p_id"]; ?>);'>Update</button>
-                          </div>
-                          <div class="row mt-2 ">
-                            <?php
-                            if ($pData["status_s_id"] == 1) {
-                            ?>
-                              <button class="btn btn-sm btn-outline-danger col-6 " onclick='updateProductStatus(<?php echo $pData["p_id"] ?>)'>Inactive</button>
-                            <?php
+                    ?>
+                      <option value="<?php echo $dataa["cat_id"]; ?>"><?php echo $dataa["catogery_name"]; ?></option>
 
-
-                            } else {
-
-                            ?>
-                              <button class="btn btn-sm btn-outline-success col-6 " onclick='updateProductStatus(<?php echo $pData["p_id"] ?>)'>Active</button>
+                    <?php
 
 
-                            <?php
-                            }
+                    }
+
+
+                    ?>
 
 
 
-                            ?>
+                    ?>
+
+                  </select>
+                  <button class="btn btn-outline-secondary"><i class="fab fa-searchengin "></i></button>
+
+                </div>
+              </div>
+            </div>
+
+            <div id="AdProducts">
+
+
+
+              <div class="row row-cols-1 row-cols-md-6 g-4">
+
+
+                <?php
+
+                $resP = Database::search("SELECT * FROM `products` JOIN `catogerys` ON `products`.`catogerys_cat_id` = `catogerys`.`cat_id` JOIN `brand` ON `products`.`brand_br_id` = `brand`. `br_id` ORDER BY `products`.`p_id` ASC ");
+                $numP = $resP->num_rows;
+                if ($numP > 0) {
+
+                  for ($x = 0; $x < $numP; $x++) {
+                    $pData = $resP->fetch_assoc();
+
+                ?>
+                    <div class="col ">
+                      <div class="card   my-p-c ">
+                        <img src="<?php echo $pData["p_img"]; ?>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h6 class="card-title"><?php echo $pData["p_title"]; ?> (<?php echo $pData["brand_name"]; ?>)</h6>
+                          <h6 class="card-text">Qty <?php echo $pData["qty"]; ?> Left</h6>
+                          <p class="card-text">Rs.<?php echo $pData["price"]; ?></p>
 
 
 
 
 
-                            <button class="btn btn-sm btn-outline-secondary col-6" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasOffers" aria-controls="offcanvasOffers" onclick="privewProduct(<?php echo $pData['p_id']; ?>);"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                        <div class=" position-absolute d-flex justify-content-center align-items-end w-100 h-100 ">
+                          <div class=" w-100 btn-wrap">
+                            <div class="btn-cl">
+                              <div class="row col-12 ">
+                                <?php
+                                if ($pData["status_s_id"] == 1) {
+                                ?>
+                                  <div class="col-10 d-grid">
+                                    <button class="btn btn-sm btn-outline-danger  " onclick='updateProductStatus(<?php echo $pData["p_id"] ?>)'>Inactive</button>
+                                  </div>
+
+                                <?php
+
+
+                                } else {
+
+                                ?>
+                                  <div class="col-10 d-grid">
+
+                                    <button class="btn btn-sm btn-outline-success  " onclick='updateProductStatus(<?php echo $pData["p_id"] ?>)'>Active</button>
+                                  </div>
+
+
+                                <?php
+                                }
 
 
 
+                                ?>
+
+
+
+
+                                <div class="col-2 d-grid ">
+
+                                  <button class="btn  btn-sm btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasOffers" aria-controls="offcanvasOffers" onclick="privewProduct(<?php echo $pData['p_id']; ?>);"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                </div>
+
+
+
+                              </div>
+                              <div class="row mt-2">
+                                <div class="col-12 d-grid">
+
+                                  <button class="btn btn-sm btn-outline-warning" onclick='openUpdateProductModal(<?php echo $pData["p_id"]; ?>);'>Update</button>
+                                </div>
+                              </div>
+                            </div>
                           </div>
 
                         </div>
                       </div>
                     </div>
+
+
+
+
+                  <?php
+
+
+                  }
+                } else {
+                  ?>
+                  <div class="row col-12 mt-5">
+                    <div class="text-danger">
+                      <h6>No Products in this Catogery</h6>
+                    </div>
                   </div>
+
 
 
 
@@ -265,48 +416,22 @@
                 <?php
 
 
+
+
                 }
-              } else {
+
+
+
+
                 ?>
-                <div class="col">
-                  <div class="card h-100 d-flex justify-content-center align-items-center">
-
-                    <div class="card-body">
-                      <h5 class="card-title">Add Product</h5>
-
-                    </div>
-                  </div>
-                </div>
 
 
 
 
 
-              <?php
 
 
-
-
-              }
-
-
-
-
-              ?>
-              <div class="col">
-                <div class="card border-secondary h-100 d-flex justify-content-center align-items-center mycd" onclick="openAddProductModal();">
-
-                  <div class="p-5 border-secondary rounded-5">
-                    <button class="btn bg-transparent btn-sm btn-outline-secondary rounded-5 border-0 mybtn opacity-25"><i class="fas fa-plus"></i></button>
-                  </div>
-                </div>
               </div>
-
-
-
-
-
-
             </div>
           </div>
 
@@ -337,7 +462,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body" id="canBody">
-              
+
 
 
 
@@ -353,15 +478,7 @@
 
 
 
-          <div class="table-my" id="mytb-products">
-            <!-- product table begin -->
 
-            <!-- table end product -->
-
-
-
-
-          </div>
         </div>
         <!-- Manage product / add product section add product model -->
 
@@ -472,6 +589,100 @@
                   </div>
 
                   <div class="mb-2">
+                    <div class="row">
+                      <div class="col-6">
+                        <label for="" class="form-label">Product Colour :</label>
+                        <div id="newColorDiv">
+                          <select name="" id="p_brand" class="form-control form-control-sm">
+                            <option value="00">Select Colour</option>
+                            <?php
+
+                            $res_brnad  = Database::search("SELECT * FROM `colour`");
+                            $nums_brnad = $res_brnad->num_rows;
+                            for ($x = 0; $x < $nums_brnad; $x++) {
+                              $data_brnad = $res_brnad->fetch_assoc();
+                            ?>
+                              <option value="<?php echo $data_brnad["co_id"]; ?>"><?php echo $data_brnad["colour_name"]; ?></option>
+
+
+
+                            <?php
+                            }
+
+
+
+                            ?>
+
+
+
+
+
+                          </select>
+                        </div>
+
+                      </div>
+                      <div class="col-6">
+                        <label for="" class="form-label">Add new Colour:</label>
+                        <div class="input-group">
+                          <input type="text" class="form-control form-control-sm" id="newColourName">
+                          <button class="btn btn-sm btn-warning" onclick="addColour();">Add</button>
+
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+
+                  <div class="mb-2">
+                    <div class="row">
+                      <div class="col-6">
+                        <label for="" class="form-label">Size : </label>
+                        <div id="newSizeDiv">
+                          <select name="" id="p_brand" class="form-control form-control-sm">
+                            <option value="00">Select Size </option>
+                            <?php
+
+                            $res_size  = Database::search("SELECT * FROM `size`");
+                            $nums_size = $res_size->num_rows;
+                            for ($x = 0; $x < $nums_size; $x++) {
+                              $data_size = $res_size->fetch_assoc();
+                            ?>
+                              <option value="<?php echo $data_size["s_id"]; ?>"><?php echo $data_size["size_name"]; ?></option>
+
+
+
+                            <?php
+                            }
+
+
+
+                            ?>
+
+
+
+
+
+                          </select>
+                        </div>
+
+                      </div>
+                      <div class="col-6">
+                        <label for="" class="form-label">Add new Size :</label>
+                        <div class="input-group">
+                          <input type="text" class="form-control form-control-sm" id="newBrandName">
+                          <button class="btn btn-sm btn-warning" onclick="addSize();">Add</button>
+
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+
+                  <div class="mb-2">
                     <label for="" class="form-label">Product Qty :</label>
                     <input type="number" id="p_qty" min="1" class="form-control form-control-sm" value="1">
                   </div>
@@ -513,7 +724,7 @@
                   </div>
                   <div class="mb-2">
                     <label for="" class="form-label">Product Image :</label> <br>
-                    <input type="file" id="propImageS" class="form-control-sm mb-2 " onchange="loadFile();"><br>
+                    <input type="file" id="propImageS" class="form-control-sm mb-2 " accept="image/png, image/jpeg" onchange="loadFile();"><br>
 
                   </div>
 
@@ -541,7 +752,7 @@
 
               </div>
               <div class="modal-footer">
-                <button class="btn btn-primary" onclick="updateProduct(<?php echo $pData['p_id']; ?>);">Update Product</button>
+                <button class="btn btn-primary" onclick="updateProduct();">Update Product</button>
               </div>
             </div>
           </div>

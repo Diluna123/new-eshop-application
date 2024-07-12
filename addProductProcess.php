@@ -63,7 +63,7 @@ if (empty($pTitle)) {
                 Database::iud("UPDATE `products` SET `qty` = `qty` + '$pQty' WHERE `p_id` = '" . $dataU["p_id"] . "'");
                 echo "success";
             } else {
-                Database::iud("INSERT INTO `products`( `brand_br_id`, `catogerys_cat_id`,`p_title`, `qty`, `p_dis`, `d_fees`, `price`, `p_img`,`status_s_id`) VALUES ( '$pBrand', '$pCat','$pTitle', '$pQty', '$pDesc', '$dCost', '$pPrice', '$new_name','1')");
+                Database::iud("INSERT INTO `products`( `brand_br_id`, `catogerys_cat_id`,`p_title`, `qty`, `p_dis`, `d_fees`, `price`,`colour_co_id`,`size_s_id`, `p_img`,`status_s_id`) VALUES ( '$pBrand', '$pCat','$pTitle', '$pQty', '$pDesc', '$dCost', '$pPrice','1','1', '$new_name','1')");
                 echo "success";
             }
         }

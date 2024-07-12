@@ -448,6 +448,8 @@ function addCatogery(){
   req.send(form);
 }
 
+
+
 function addBrand(){
   const newBrandName = document.getElementById("newBrandName");
 
@@ -468,6 +470,8 @@ function addBrand(){
           showConfirmButton: false,
           timer: 1500
         });
+      }else{
+        alert(this.responseText);
       }
     }
   }
@@ -475,8 +479,43 @@ function addBrand(){
   req.send(form);
 
 }
+function addColour(){
+  const newColour = document.getElementById("newColourName");
 
-function  updateProduct(pid){
+  const form = new FormData();
+  form.append("newColour", newColour.value);
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      if(this.responseText == "success"){
+        $("#newColorDiv").load(location.href + " #newColorDiv");
+        newColour.value = "";
+        Swal.fire({
+         
+          icon: "success",
+          title: "New Colour Added Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
+
+
+      }else{
+        alert(this.responseText);
+
+      }
+
+    }
+  }
+  req.open("POST", "addColourProcess.php", true);
+  req.send(form);
+
+
+
+  
+}
+
+function updateProduct() {
+  const pId = document.getElementById("p_IdU");
   const pTitle = document.getElementById("p_tiU");
   const pCat = document.getElementById("p_catU");
   const pBrand = document.getElementById("p_brandU");
@@ -488,6 +527,8 @@ function  updateProduct(pid){
   const imageP = document.getElementById("propImagePU");
 
   const form = new FormData();
+
+  form.append("pId", pId.value);
   form.append("pTitle", pTitle.value);
   form.append("pCat", pCat.value);
   form.append("pBrand", pBrand.value);
@@ -495,20 +536,23 @@ function  updateProduct(pid){
   form.append("pPrice", pPrice.value);
   form.append("pDesc", pDesc.value);
   form.append("dCost", dCost.value);
-  form.append("pi", p_image.files[0]);
+
+  if (p_image.files.length > 0) {
+    form.append("pi", p_image.files[0]);
+  }
 
   const req = new XMLHttpRequest();
   req.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       if (this.responseText == "success") {
         Swal.fire({
-         
           icon: "success",
-          title: "Product Added Successfully",
+          title: "Product Updated Successfully",
           showConfirmButton: false,
           timer: 1500
         });
         $("#mytb-products").load(location.href + " #mytb-products");
+        pId.value = "";
         pTitle.value = "";
         pBrand.value = "00";
         pCat.value = "00";
@@ -518,29 +562,20 @@ function  updateProduct(pid){
         pPrice.value = "";
         p_image.value = "";
         imageP.innerHTML = '<img src="img/img-ng.png" class="img-fluid rounded-3" id="" alt="Responsive image">';
-        
-
-        addModal.hide();
+        updateModal.hide();
       } else {
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: this.responseText,
-          
         });
-       
       }
     }
   };
   req.open("POST", "updateProductProcess.php", true);
   req.send(form);
-
- 
-
-
-
-
 }
+
 function privewProduct(pid){
   const canBody = document.getElementById("canBody");
 
@@ -554,5 +589,23 @@ function privewProduct(pid){
   }
   req.open("GET", "privewProductProcess.php?pid=" + pid, true);
   req.send();
+
+}
+
+function searchAdProduct(cid){
+  const adDiv = document.getElementById('AdProducts')
+
+  const req = new XMLHttpRequest();
+
+  req.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      adDiv.innerHTML = this.responseText;
+      
+    }
+  }
+  req.open("GET", "SearchAdProductProcess.php?cid=" + cid, true);
+  req.send();
+  
+
 
 }

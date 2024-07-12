@@ -6,32 +6,42 @@ $pId = $_GET["pid"];
 $res = Database::search("SELECT * FROM `products` WHERE `p_id` = '" . $pId . "'");
 $catOptions = "";
 $brandOptions = "";
+$colourOptions = "";
 
-if($res->num_rows> 0){
-    $data = $res->fetch_assoc();
+if ($res->num_rows > 0) {
+  $data = $res->fetch_assoc();
 
-    $crs = Database::search("SELECT * FROM `catogerys`");
-        while ($cdata = $crs->fetch_assoc()) {
-            // Check if the current occupation matches the team member's occupation
-            $selected = ($data["catogerys_cat_id"] == $cdata["cat_id"]) ? 'selected' : '';
-            $catOptions .= "<option value='{$cdata["cat_id"]}' {$selected}>{$cdata["catogery_name"]}</option>";
-        }
+  $crs = Database::search("SELECT * FROM `catogerys`");
+  while ($cdata = $crs->fetch_assoc()) {
+    // Check if the current occupation matches the team member's occupation
+    $selected = ($data["catogerys_cat_id"] == $cdata["cat_id"]) ? 'selected' : '';
+    $catOptions .= "<option value='{$cdata["cat_id"]}' {$selected}>{$cdata["catogery_name"]}</option>";
+  }
 
-        $brs = Database::search("SELECT * FROM `brand`");
-        while ($bdata = $brs->fetch_assoc()) {
-            // Check if the current occupation matches the team member's occupation
-            $selected = ($data["brand_br_id"] == $bdata["br_id"]) ? 'selected' : '';
-            $brandOptions .= "<option value='{$bdata["br_id"]}' {$selected}>{$bdata["brand_name"]}</option>";
-        }
+  $brs = Database::search("SELECT * FROM `brand`");
+  while ($bdata = $brs->fetch_assoc()) {
+    // Check if the current occupation matches the team member's occupation
+    $selected = ($data["brand_br_id"] == $bdata["br_id"]) ? 'selected' : '';
+    $brandOptions .= "<option value='{$bdata["br_id"]}' {$selected}>{$bdata["brand_name"]}</option>";
+  }
+  $cors = Database::search("SELECT * FROM `colour`");
+  while ($cdata = $cors->fetch_assoc()) {
+    // Check if the current occupation matches the team member's occupation
+    $selected = ($data["colour_co_id"] == $cdata["co_id"]) ? 'selected' : '';
+    $colourOptions .= "<option value='{$cdata["co_id"]}' {$selected}>{$cdata["colour_name"]}</option>";
+  }
 
-    
-    ?><div class="row">
+
+?><div class="row">
     <!-- modal form begin -->
 
-
+    <div class="mb-2">
+      <label for="" class="form-label">Product ID :</label>
+      <input type="text" id="p_IdU" class="form-control form-control-sm" value="<?php echo $data['p_id']; ?>" disabled>
+    </div>
     <div class="mb-2">
       <label for="" class="form-label">Product Title :</label>
-      <input type="text" id="p_tiU" class="form-control form-control-sm" value = "<?php echo $data['p_title']; ?>">
+      <input type="text" id="p_tiU" class="form-control form-control-sm" value="<?php echo $data['p_title']; ?>">
     </div>
     <div class="mb-2">
       <div class="row">
@@ -39,8 +49,8 @@ if($res->num_rows> 0){
           <label for="" class="form-label">Product Catogery :</label>
           <div id="newCatDiv">
             <select name="" id="p_catU" class="form-control form-control-sm">
-            <?php echo $catOptions; // Echo all catogery options 
-            ?>
+              <?php echo $catOptions; // Echo all catogery options 
+              ?>
 
 
 
@@ -50,7 +60,7 @@ if($res->num_rows> 0){
 
 
         </div>
-       
+
       </div>
 
 
@@ -62,8 +72,8 @@ if($res->num_rows> 0){
           <label for="" class="form-label">Product Brand :</label>
           <div id="newBrandDiv">
             <select name="" id="p_brandU" class="form-control form-control-sm">
-            <?php echo $brandOptions; // Echo all Brand options 
-            ?>
+              <?php echo $brandOptions; // Echo all Brand options 
+              ?>
 
 
 
@@ -72,11 +82,55 @@ if($res->num_rows> 0){
           </div>
 
         </div>
-       
+
       </div>
 
 
     </div>
+    <div class="mb-2">
+      <div class="row">
+        <div class="col-12">
+          <label for="" class="form-label">Product Colour:</label>
+          <div id="newColordDiv">
+            <select name="" id="p_colorU" class="form-control form-control-sm">
+            <?php echo $colourOptions; // Echo all Brand options 
+              ?>
+
+
+
+
+
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </div>
+    <div class="mb-2">
+      <div class="row">
+        <div class="col-12">
+          <label for="" class="form-label">Product Size :</label>
+          <div id="newSizeDiv">
+            <select name="" id="p_sizeU" class="form-control form-control-sm">
+
+
+
+
+
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+
 
     <div class="mb-2">
       <label for="" class="form-label">Product Qty :</label>
@@ -127,33 +181,33 @@ if($res->num_rows> 0){
 
 
   </div>
-    
-    
-    <?php
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+<?php
 
 
-}else{
-    echo "No products found";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+} else {
+  echo "No products found";
 }
 
 
