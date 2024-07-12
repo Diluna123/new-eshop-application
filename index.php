@@ -150,19 +150,19 @@
         </div>
     </section>
     <div class="container">
-        <section class="new-collection vh-100">
+        <section class="new-collection vh-100 mb-5">
             <div class="row mb-5">
                 <h2 class="mt-5">New Collection</h2>
                 <div class="under-line-m"></div>
             </div>
-            <div class="row">
+            <div class="row p-4">
                 <div class="b-h col-lg-4 me-5 bg-secondary">
 
                 </div>
                 <div class="b-h col-lg-7 bg-warning mt-lg-0 mt-md-2 mt-2 mt-sm-2">
                     <div class="row">
                         <div class="col-5 d-flex justify-content-center align-content-center">
-                            <img src="img/shoe1.png" class="mt-5" width="auto" height="450px" alt="">
+                            <img src="img/shoe1.png" class="mt-5" width="auto" height="400px" alt="">
 
                         </div>
                         <div class="col-7 mt-5 ">
@@ -185,6 +185,13 @@
             </div>
 
 
+
+
+
+        </section>
+
+        <section class="item-section vh-100 mt-5">
+            <h1 class="text-light">Recomended Items</h1>
 
 
 

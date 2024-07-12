@@ -55,3 +55,134 @@
     }
   }
 </style>
+
+
+
+
+
+
+
+
+<div class="table-responsive ">
+              <table class="table table-bordered table-hover table-sm table-secondary rounded-2">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Brand</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+
+                  $resP = Database::search("SELECT * FROM `products` JOIN `catogerys` ON `products`.`catogerys_cat_id` = `catogerys`.`cat_id` JOIN `brand` ON `products`.`brand_br_id` = `brand`. `br_id` ORDER BY `products`.`p_id` ASC ");
+                  $numP = $resP->num_rows;
+                  if ($numP > 0) {
+
+                    for ($x = 0; $x < $numP; $x++) {
+                      $pData = $resP->fetch_assoc();
+
+                  ?>
+
+                      <tr>
+                        <td><?php echo $pData["p_id"]; ?></td>
+                        <td><?php echo $pData["p_title"]; ?></td>
+                        <td><?php echo $pData["catogery_name"]; ?></td>
+                        <td><?php echo $pData["brand_name"]; ?></td>
+                        <td><?php echo  $pData["qty"]; ?></td>
+                        <td>Rs.<?php echo  $pData["price"]; ?></td>
+                        <td><?php
+
+                            if ($pData["status_s_id"] == 1) {
+                            ?>
+                            <span class="badge rounded-pill text-bg-success">Active</span>
+                          <?php
+
+                            } else {
+
+                          ?>
+                            <span class="badge rounded-pill text-bg-danger">Inactive</span>
+
+                          <?php
+
+
+                            }
+
+
+                          ?>
+                        </td>
+                        <?php
+                        if ($pData["status_s_id"] == 1) {
+                        ?>
+                          <td class="text-center">
+
+                            <button class="btn btn-sm btn-outline-danger" onclick='updateProductStatus(<?php echo $pData["p_id"] ?>)'>Inactive</button>
+                            <button class="btn btn-dark btn-sm" onclick='privewImg(<?php echo $pData["p_id"] ?>);'><i class="fa-regular fa-image"></i></button>
+                            <button class="btn btn-secondary btn-sm" onclick='openUpdateProductModal(<?php echo $pData["p_id"]; ?>);'><i class="fa-solid fa-pen"></i></button>
+                          </td>
+
+
+                        <?php
+
+                        } else {
+                        ?>
+                          <td class="text-center">
+
+                            <button class="btn btn-sm btn-outline-success" onclick='updateProductStatus(<?php echo $pData["p_id"] ?>)'>Active</button>
+                            <button class="btn btn-dark btn-sm" onclick='privewImg(<?php echo $pData["p_id"] ?>);'><i class="fa-regular fa-image"></i></button>
+                            <button class="btn btn-secondary btn-sm" onclick='openUpdateProductModal(<?php echo $pData["p_id"]; ?>);'><i class="fa-solid fa-pen"></i></button>
+                          </td>
+
+                        <?php
+                        }
+
+                        ?>
+
+                      </tr>
+
+
+                    <?php
+
+
+                    }
+                  } else {
+                    ?>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>No Product You Have</td>
+                      <td></td>
+                      <td></td>
+                      <td>
+
+
+
+                      </td>
+                    </tr>
+
+
+
+
+
+                  <?php
+
+
+
+
+                  }
+
+
+
+
+                  ?>
+
+
+                </tbody>
+              </table>
+            </div>

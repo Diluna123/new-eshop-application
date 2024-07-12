@@ -1,112 +1,54 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // my functions
 function changForm() {
   const signin = document.getElementById("signin");
   const signup = document.getElementById("signup");
- 
 
   signin.classList.toggle("move");
   signup.classList.toggle("move1");
- 
-  
-
-  
 }
 function changForm2() {
   const signin = document.getElementById("signin");
   const forgotPs = document.getElementById("forgotPs");
-  
 
   signin.classList.toggle("moveR");
   forgotPs.classList.toggle("move2");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-function forgotPs(){
+function forgotPs() {
   const email = document.getElementById("fps-email");
   const alertBox = document.getElementById("alert-d-forgotPs");
-  const loadingve =document.getElementById("loading-ve");
+  const loadingve = document.getElementById("loading-ve");
 
-  loadingve.className ="loading  d-flex justify-content-center";
+  loadingve.className = "loading  d-flex justify-content-center";
 
-
-  
   const form = new FormData();
   form.append("email", email.value);
 
   const request = new XMLHttpRequest();
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      if(this.responseText=="success"){
-        
-      changForm3();
-      loadingve.className ="d-none";
-      
-      alertBox.className = "d-none";
-    }
-    else{
-      alertBox.className = "alert alert-danger d-block";
-      loadingve.className ="d-none";
+      if (this.responseText == "success") {
+        changForm3();
+        loadingve.className = "d-none";
 
-      alertBox.innerHTML = this.responseText;
-      ;
+        alertBox.className = "d-none";
+      } else {
+        alertBox.className = "alert alert-danger d-block";
+        loadingve.className = "d-none";
 
+        alertBox.innerHTML = this.responseText;
+      }
     }
-  }
-}
+  };
   request.open("POST", "forgotPsProcess.php", true);
   request.send(form);
-
-
 }
 
 function changForm3() {
-  
   const forgotPs = document.getElementById("forgotPs");
   const fverify = document.getElementById("forgotPsverification");
-  
+
   forgotPs.classList.toggle("moveLeft");
   fverify.classList.toggle("move3");
-
 }
 
 function changForm4() {
@@ -115,12 +57,7 @@ function changForm4() {
   fverify.classList.toggle("moveLeft2");
 
   addNewPs.classList.toggle("move4");
-
 }
-
-
-
-
 
 function enebleBtn() {
   const checkbox2 = document.getElementById("checkbox2");
@@ -196,8 +133,6 @@ function signIn() {
   const checkbox = document.getElementById("checkbox");
   const alertbox = document.getElementById("alert-d");
 
-  
-
   const form = new FormData();
   form.append("email", email);
   form.append("password", password);
@@ -210,27 +145,22 @@ function signIn() {
       if (this.responseText == "success") {
         window.location.href = "index.php";
       } else {
-        alertbox.className ="alert alert-danger alert-dismissible fade show";
+        alertbox.className = "alert alert-danger alert-dismissible fade show";
         alertbox.innerHTML = "Error: " + this.responseText;
-
-
       }
-     
     }
   };
   request.open("POST", "signInProcess.php", true);
   request.send(form);
-
 }
 
-function hideAlert(){
+function hideAlert() {
   const alertbox = document.getElementById("alert-d");
   alertbox.className = "d-none";
-
 }
 // changForm4();
 
-function verify (){
+function verify() {
   const email = document.getElementById("fps-email").value;
   const vCode = document.getElementById("ve-code").value;
 
@@ -247,17 +177,14 @@ function verify (){
       } else {
         alertBox.className = "alert alert-danger d-block";
         alertBox.innerHTML = this.responseText;
-        
       }
     }
   };
   request.open("POST", "verifyProcess.php", true);
   request.send(form);
-
 }
 
-function changPs(){
-
+function changPs() {
   const nPs = document.getElementById("newPsw").value;
   const cnPs = document.getElementById("cnewPsw").value;
   const email = document.getElementById("fps-email").value;
@@ -272,22 +199,413 @@ function changPs(){
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       if (this.responseText == "success") {
-        alertBox.className ="alert alert-success d-block";
+        alertBox.className = "alert alert-success d-block";
         alertBox.innerHTML = "Password changed successfully";
-      
+
         window.location.reload();
       } else {
         alert(this.responseText);
-        alertBox.className ="lert alert-danger d-block";
+        alertBox.className = "lert alert-danger d-block";
         alertBox.innerHTML = this.responseText;
       }
     }
   };
   request.open("POST", "changePswProcess.php", true);
   request.send(form);
+}
+var addModal;
+function openAddProductModal() {
+  const modal = document.getElementById("addProduct");
+  addModal = new bootstrap.Modal(modal);
+  addModal.show();
+}
+
+var updateModal;
+function openUpdateProductModal(pId) {
+  const modal = document.getElementById("UpdateProduct");
+  updateModal = new bootstrap.Modal(modal);
+  updateModal.show();
+  const modalBody = document.getElementById("modelUpdateBody");
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      modalBody.innerHTML = this.responseText;
+      
+    }
+  };
+  req.open("GET", "updateLoadProductProcess.php?pid=" + pId, true);
+  req.send();
+
+}
+
+function loadFile() {
+  const imageInput = document.getElementById("propImageS");
+  const imgTag = document.getElementById("propImageP");
+  const files = imageInput.files[0];
+  if (files) {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(files);
+    fileReader.addEventListener("load", function () {
+      imgTag.style.display = "block";
+      imgTag.innerHTML ="";
+      imgTag.innerHTML =
+        '<img src="' + this.result + '" class="img-fluid rounded-3" />';
+    });
+  }
+}
+function loadFileU(){
+  const imageInput = document.getElementById("propImageSU");
+  const imgTag = document.getElementById("propImagePU");
+  const files = imageInput.files[0];
+  if (files) {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(files);
+    fileReader.addEventListener("load", function () {
+      imgTag.style.display = "block";
+      imgTag.innerHTML ="";
+      imgTag.innerHTML =
+        '<img src="' + this.result + '" class="img-fluid rounded-3" />';
+    });
+  }
+
+
+
+
+
+
+}
+$(document).ready(function () {
+  $("#sidebarCollapse").on("click", function () {
+    $("#sidebar").toggleClass("active");
+  });
+
+  $("a[data-content]").on("click", function (e) {
+    e.preventDefault();
+    var contentId = $(this).data("content");
+    $(".content-section").addClass("d-none");
+    $("#" + contentId).removeClass("d-none");
+
+    // Reinitialize chart if Home is clicked
+    if (contentId === "home") {
+      initializeChart();
+    }
+  });
+
+  function initializeChart() {
+    var ctx = document.getElementById("salesChart").getContext("2d");
+    var salesChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+        ],
+        datasets: [
+          {
+            label: "Sales",
+            data: [65, 59, 80, 81, 56, 55, 40],
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  }
+
+  // Initialize the dashboard content and chart on page load
+  $("#home").removeClass("d-none");
+  initializeChart();
+});
+
+function addProduct() {
+  const pTitle = document.getElementById("p_ti");
+  const pCat = document.getElementById("p_cat");
+  const pBrand = document.getElementById("p_brand");
+  const pQty = document.getElementById("p_qty");
+  const pPrice = document.getElementById("p_price");
+  const pDesc = document.getElementById("p_dis");
+  const dCost = document.getElementById("d_cost");
+  const p_image = document.getElementById("propImageS");
+  const imageP = document.getElementById("propImageP");
+
+  const form = new FormData();
+  form.append("pTitle", pTitle.value);
+  form.append("pCat", pCat.value);
+  form.append("pBrand", pBrand.value);
+  form.append("pQty", pQty.value);
+  form.append("pPrice", pPrice.value);
+  form.append("pDesc", pDesc.value);
+  form.append("dCost", dCost.value);
+  form.append("pi", p_image.files[0]);
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        Swal.fire({
+         
+          icon: "success",
+          title: "Product Added Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        $("#mytb-products").load(location.href + " #mytb-products");
+        pTitle.value = "";
+        pBrand.value = "00";
+        pCat.value = "00";
+        pDesc.value = "";
+        dCost.value = "";
+        pQty.value = "";
+        pPrice.value = "";
+        p_image.value = "";
+        imageP.innerHTML = '<img src="img/img-ng.png" class="img-fluid rounded-3" id="" alt="Responsive image">';
+        
+
+        addModal.hide();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: this.responseText,
+          
+        });
+       
+      }
+    }
+  };
+  req.open("POST", "addProductProcess.php", true);
+  req.send(form);
+}
+
+function updateProductStatus(propId){
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        
+        $("#mytb-products").load(location.href + " #mytb-products");
+        
+      }else{
+        alert(this.responseText);
+
+      }
+    }
+  };
+  req.open("GET", "updateProductStatus.php?pid=" + propId + "", true);
+  req.send();
 
 
 
 }
 
 
+
+function addCatogery(){
+  
+
+  const newCatName = document.getElementById("newCat");
+
+  const form = new FormData();
+
+  form.append("newCat", newCatName.value);
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        $("#newCatDiv").load(location.href + " #newCatDiv");
+        newCatName.value ="";
+        Swal.fire({
+         
+          icon: "success",
+          title: "New Catogery Added Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
+
+
+      }else{
+        alert(this.responseText);
+      }
+    }
+  };
+  req.open("POST", "addCatogeryProcess.php", true);
+  req.send(form);
+}
+
+
+
+function addBrand(){
+  const newBrandName = document.getElementById("newBrandName");
+
+  const form = new FormData();
+
+  form.append("newBrandName", newBrandName.value);
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        $("#newBrandDiv").load(location.href + " #newBrandDiv");
+        newBrandName.value ="";
+        Swal.fire({
+         
+          icon: "success",
+          title: "New Brand Added Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }else{
+        alert(this.responseText);
+      }
+    }
+  }
+  req.open("POST", "addBrandProcess.php", true);
+  req.send(form);
+
+}
+function addColour(){
+  const newColour = document.getElementById("newColourName");
+
+  const form = new FormData();
+  form.append("newColour", newColour.value);
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      if(this.responseText == "success"){
+        $("#newColorDiv").load(location.href + " #newColorDiv");
+        newColour.value = "";
+        Swal.fire({
+         
+          icon: "success",
+          title: "New Colour Added Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
+
+
+      }else{
+        alert(this.responseText);
+
+      }
+
+    }
+  }
+  req.open("POST", "addColourProcess.php", true);
+  req.send(form);
+
+
+
+  
+}
+
+function updateProduct() {
+  const pId = document.getElementById("p_IdU");
+  const pTitle = document.getElementById("p_tiU");
+  const pCat = document.getElementById("p_catU");
+  const pBrand = document.getElementById("p_brandU");
+  const pQty = document.getElementById("p_qtyU");
+  const pPrice = document.getElementById("p_priceU");
+  const pDesc = document.getElementById("p_disU");
+  const dCost = document.getElementById("d_costU");
+  const p_image = document.getElementById("propImageSU");
+  const imageP = document.getElementById("propImagePU");
+
+  const form = new FormData();
+
+  form.append("pId", pId.value);
+  form.append("pTitle", pTitle.value);
+  form.append("pCat", pCat.value);
+  form.append("pBrand", pBrand.value);
+  form.append("pQty", pQty.value);
+  form.append("pPrice", pPrice.value);
+  form.append("pDesc", pDesc.value);
+  form.append("dCost", dCost.value);
+
+  if (p_image.files.length > 0) {
+    form.append("pi", p_image.files[0]);
+  }
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        Swal.fire({
+          icon: "success",
+          title: "Product Updated Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        $("#mytb-products").load(location.href + " #mytb-products");
+        pId.value = "";
+        pTitle.value = "";
+        pBrand.value = "00";
+        pCat.value = "00";
+        pDesc.value = "";
+        dCost.value = "";
+        pQty.value = "";
+        pPrice.value = "";
+        p_image.value = "";
+        imageP.innerHTML = '<img src="img/img-ng.png" class="img-fluid rounded-3" id="" alt="Responsive image">';
+        updateModal.hide();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: this.responseText,
+        });
+      }
+    }
+  };
+  req.open("POST", "updateProductProcess.php", true);
+  req.send(form);
+}
+
+function privewProduct(pid){
+  const canBody = document.getElementById("canBody");
+
+  const req = new XMLHttpRequest();
+
+  req.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      canBody.innerHTML =this.responseText;
+     
+    }
+  }
+  req.open("GET", "privewProductProcess.php?pid=" + pid, true);
+  req.send();
+
+}
+
+function searchAdProduct(cid){
+  const adDiv = document.getElementById('AdProducts')
+
+  const req = new XMLHttpRequest();
+
+  req.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      adDiv.innerHTML = this.responseText;
+      
+    }
+  }
+  req.open("GET", "SearchAdProductProcess.php?cid=" + cid, true);
+  req.send();
+  
+
+
+}
