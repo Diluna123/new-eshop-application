@@ -328,8 +328,11 @@
 
                 ?>
                     <div class="col ">
-                      <div class="card   my-p-c ">
-                        <img src="<?php echo $pData["p_img"]; ?>" class="card-img-top" alt="...">
+                      <div class="card   my-p-c " >
+                        <div data-bs-toggle="offcanvas" data-bs-target="#offcanvasOffers" aria-controls="offcanvasOffers" onclick="privewProduct(<?php echo $pData['p_id']; ?>);">
+
+                          <img src="<?php echo $pData["p_img"]; ?>" class="card-img-top" alt="...">
+                        </div>
                         <div class="card-body">
                           <h6 class="card-title"><?php echo $pData["p_title"]; ?> (<?php echo $pData["brand_name"]; ?>)</h6>
                           <h6 class="card-text">Qty <?php echo $pData["qty"]; ?> Left</h6>

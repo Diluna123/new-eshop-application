@@ -609,3 +609,86 @@ function searchAdProduct(cid){
 
 
 }
+function signOut(){
+  var req = new XMLHttpRequest();
+
+  req.onreadystatechange = function () {
+    if (req.readyState == 4 && req.status == 200) {
+      var res = req.responseText;
+      if (res == "success") {
+        window.location.reload();
+      } else {
+        alert(res);
+      }
+    }
+  };
+  req.open("GET", "signoutProcess.php", true);
+  req.send();
+
+
+
+
+}
+
+function updateUserProfile(){
+  const fname = document.getElementById("fname_p");
+  const lname = document.getElementById("lname_p");
+  const mobile = document.getElementById("mobile_p");
+  const adress = document.getElementById("address");
+  const prov = document.getElementById("province");
+  const distric = document.getElementById("distric");
+  const city = document.getElementById("city");
+  const zip = document.getElementById("zip");
+  const edImg = document.getElementById("ed-img");
+
+  const form = new FormData();
+
+ 
+  form.append("fname", fname.value);
+  form.append("lname", lname.value);
+  form.append("mobile", mobile.value);
+  form.append("adress", adress.value);
+  form.append("prov", prov.value);
+  form.append("distric", distric.value);
+  form.append("city", city.value);
+  form.append("zip", zip.value);
+  form.append("edImg", edImg.files[0]);
+  
+  const req = new XMLHttpRequest();
+
+  req.onreadystatechange = function (){
+    if(this.readyState == 4 && this.status == 200){
+      if(this.responseText == "success"){
+        Swal.fire({
+          icon: "success",
+          title: "Profile Updated Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
+
+      }else{
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: this.responseText,
+        });
+
+
+      }
+    }
+  }
+  req.open("POST","updateProfileProcess.php",true); 
+  req.send(form);
+}
+
+function priviewImg(){
+  const img = document.getElementById("ed-img");
+
+  img.onchange = function () {
+    var file = this.files[0];
+    var url = window.URL.createObjectURL(file);
+    document.getElementById("proimg").src = url;
+  };
+
+  
+}

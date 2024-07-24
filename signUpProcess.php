@@ -46,8 +46,12 @@ if(empty($fname)){
     if($num > 0){
         echo "Email Already Exists";
     }else{
+        $datet = new DateTime();
+        $tz = new DateTimeZone("Asia/Colombo");
+        $datet-> setTimezone($tz);
+        $date = $datet -> format('Y-m-d H:i:s');
 
-        Database::iud("INSERT INTO `cutomer_details`(`fname`, `lname`, `mobile`, `email`, `psd`,`user_type_id`) VALUES ('$fname', '$lname', '$mobile', '$email', '$passC','2')");
+        Database::iud("INSERT INTO `cutomer_details`(`fname`, `lname`, `mobile`, `email`,`r_date`, `psd`,`user_type_id`,`status_s_id`) VALUES ('$fname', '$lname', '$mobile', '$email','$date', '$passC','2','1')");
         echo "success";
 
 

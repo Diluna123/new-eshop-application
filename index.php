@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
+<?php
+session_start();
+
+
+?>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Black 42</title>
     <link rel="shortcut icon" href="fav.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <script src="https://cdn.jsdelivr.net/npm/kute.js@2.2.4/dist/kute.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Rosario:ital,wght@0,300..700;1,300..700&display=swap');
@@ -115,40 +123,89 @@
 <body>
 
     <!-- nav bar over -->
-    <section class="hero-section bg">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#">B<span class="text-warning">L</span>ACK<span class="text-warning"> 4</span>2</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="signin.php">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="signin.php">Register</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <div class="row vh-100 hero-section align-items-center ">
-                <div class="col-12 text-center">
-                    <h1 class="text-white">Black 42</h1>
-                    <h2 class="text-white">e are thrilled to have you here at Black 42, your premier destination for all things costumes. Whether you're gearing up for a themed party, preparing for a special event, or simply looking to add some fun and creativity to your wardrobe, you've come to the right place!</h2>
-                    <div>
-                        <button class="btn rounded-4 btn-warning mt-4 col-lg-2">Explore</button>
-                    </div>
+            <a class="navbar-brand" href="#">B<span class="text-warning">L</span>ACK<span class="text-warning"> 4</span>2</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <?php
+
+                    if (isset($_SESSION["user"])) {
+                        $data = $_SESSION["user"];
+                    ?>
+                        <li class="nav-item dropdown">
+                            <h5><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Welcome ! <span class="text-warning"> <?php echo $data["fname"];
+                                                                            ?></span>
+
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="user-profile.php">My Profile</a></li>
+                                    <li><a class="dropdown-item" href="#">Watchlist</a></li>
+                                    <li><a class="dropdown-item" href="#">My Cart</a></li>
+                                    <li><a class="dropdown-item" href="#">My Orders</a></li>
+                                    <li><a class="dropdown-item" href="#">Contact Admin</a></li>
+                                    <li onclick="signOut();"><a class="dropdown-item" class="link-warning" href="#" >Sign out</a></li>
+                                </ul>
+                            </h5>
+                        </li>
+
+
+
+
+                    <?php
+                    } else {
+                    ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="signin.php">Login or Register</a>
+                        </li>
+
+
+                    <?php
+
+
+
+                    }
+
+
+                    ?>
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section class="herosec container">
+        <div id="carouselExampleFade" class="carousel slide carousel-fade mt-5 col-12">
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="10000">
+                    <img src="https://i0.wp.com/grupnexus.com/wp-content/uploads/2020/03/eshop-slider-cat.jpg?fit=1920%2C768&ssl=1" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item" data-bs-interval="2000">
+                    <img src="https://hkairportshop.com/media/wysiwyg/Kiehls/Carousel-banner/3a1_Homepage_Carousel-Banner_pc_EN_3.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://hkairportshop.com/media/wysiwyg/clinique/en/CL22_TTDO_Duo_Lab_HKIA_BTQ_CarouselRotatingBanner_Desktop_1920x768px_EN.jpg" class="d-block w-100" alt="...">
                 </div>
             </div>
-
-
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
+
     </section>
+
+
+
     <div class="container">
         <section class="new-collection vh-100 mb-5">
             <div class="row mb-5">
@@ -203,11 +260,11 @@
     </div>
 
 
-
+    <script src="js/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    
+
 </body>
 
 </html>
