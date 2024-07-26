@@ -1,6 +1,7 @@
 <?php
-include "connection.php";
 session_start();
+include "connection.php";
+
 $email = $_POST["email"];
 $psw = $_POST["password"];
 $checkRes = $_POST["cResults"];
@@ -29,7 +30,9 @@ if(empty($email)){
             echo "Password Does Not Match";
         }else{
             $_SESSION["user"] = $data;
+           
             if($checkRes == "true"){
+               
                 setcookie("email",$email,time()+(60*60*24*365));
                 setcookie("password",$psw,time()+(60*60*24*365));
     
