@@ -18,8 +18,16 @@ if (isset($_SESSION["user"])) {
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Rosario:ital,wght@0,300..700;1,300..700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Quattrocento+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Nobile:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Licorice&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap');
+
             body {
                 background-color: black;
+                font-family: 'Jura';
             }
 
             .img-pr {
@@ -46,12 +54,17 @@ if (isset($_SESSION["user"])) {
 
                 z-index: 2;
             }
-            .signOutTop{
+
+            .signOutTop {
                 transition: .3s;
 
             }
-            .signOutTop:hover{
-                color:#ffae00 ;
+
+            .signOutTop:hover {
+                color: #ffae00;
+            }
+            .pro-hadding{
+                font-family: 'Jura';
             }
         </style>
     </head>
@@ -60,24 +73,24 @@ if (isset($_SESSION["user"])) {
 
         <nav class="navbar fixed-top navbar-expand navbar-expand-lg navbar-expand-md navbar-expand-sm bg-body-tertiary " style="height: 35px" data-bs-theme="dark">
             <div class="container">
-                <a class="navbar-text text-decoration-none"><span class="text-warning">Hi <?php echo $udata["fname"]?></span> | <span class="signOutTop"  style="cursor: pointer; " onclick="signOut();">Sign out</span>  | Help & Contacts</a>
+                <a class="navbar-text text-decoration-none"><span class="text-warning">Hi <?php echo $udata["fname"] ?></span> | <span class="signOutTop" style="cursor: pointer; " onclick="signOut();">Sign out</span> | Help & Contacts</a>
 
                 <div class="collapse d-flex" id="navbarText">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
                         <li class="nav-item dropdown">
-                            <h5><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <h6><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
                                     <i class="fas fa-bars "></i>
 
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">My Profile</a></li>
-                                    <li><a class="dropdown-item" href="#">Watchlist</a></li>
+                                    <li><a class="dropdown-item" href="user-profile.php">My Profile</a></li>
+                                    <li><a class="dropdown-item" href="watchList.php">Watchlist</a></li>
                                     <li><a class="dropdown-item" href="#">My Cart</a></li>
                                     <li><a class="dropdown-item" href="#">My Orders</a></li>
                                     <li><a class="dropdown-item" href="#">Contact Admin</a></li>
                                 </ul>
-                            </h5>
+                            </h6>
                         </li>
 
                     </ul>
@@ -96,7 +109,7 @@ if (isset($_SESSION["user"])) {
 
             <div class="row mt-4">
                 <div class="row mt-3">
-                    <label for="" class="form-label text-light"><a href="index.php" class="link-warning">Home </a>/ My Profile</label>
+                    <label for="" class="form-label text-light"><a href="index.php" class="link-warning text-decoration-none">Home </a>/ My Profile</label>
                 </div>
                 <div class="col-lg-4 d-flex justify-content-center">
                     <div class="wr-img mb-5">
@@ -138,7 +151,7 @@ if (isset($_SESSION["user"])) {
                     <h1 class="mt-1 text-warning pro-hadding">My Profile</h1>
 
                     <div class="col-lg-9">
-                        <div class="row mt-5">
+                        <div class="row mt-4">
                             <div class="mb-3 col-lg-6">
                                 <label for="" class="form-label text-warning">First Name :</label>
                                 <input type="text" class="form-control form-control-sm" id="fname_p" value="<?php echo $crdata["fname"] ?>">
@@ -214,7 +227,7 @@ if (isset($_SESSION["user"])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-5">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <label for="" class="form-label text-warning">City :</label>
@@ -346,7 +359,10 @@ if (isset($_SESSION["user"])) {
 
 
 
+        <div class="mt-5 ">
+            <?php include "footer.php"; ?>
 
+        </div>
 
 
         <script src="js/script.js"></script>

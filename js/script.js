@@ -231,12 +231,10 @@ function openUpdateProductModal(pId) {
   req.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       modalBody.innerHTML = this.responseText;
-      
     }
   };
   req.open("GET", "updateLoadProductProcess.php?pid=" + pId, true);
   req.send();
-
 }
 
 function loadFile() {
@@ -248,13 +246,13 @@ function loadFile() {
     fileReader.readAsDataURL(files);
     fileReader.addEventListener("load", function () {
       imgTag.style.display = "block";
-      imgTag.innerHTML ="";
+      imgTag.innerHTML = "";
       imgTag.innerHTML =
         '<img src="' + this.result + '" class="img-fluid rounded-3" />';
     });
   }
 }
-function loadFileU(){
+function loadFileU() {
   const imageInput = document.getElementById("propImageSU");
   const imgTag = document.getElementById("propImagePU");
   const files = imageInput.files[0];
@@ -263,17 +261,11 @@ function loadFileU(){
     fileReader.readAsDataURL(files);
     fileReader.addEventListener("load", function () {
       imgTag.style.display = "block";
-      imgTag.innerHTML ="";
+      imgTag.innerHTML = "";
       imgTag.innerHTML =
         '<img src="' + this.result + '" class="img-fluid rounded-3" />';
     });
   }
-
-
-
-
-
-
 }
 $(document).ready(function () {
   $("#sidebarCollapse").on("click", function () {
@@ -357,11 +349,10 @@ function addProduct() {
     if (this.readyState == 4 && this.status == 200) {
       if (this.responseText == "success") {
         Swal.fire({
-         
           icon: "success",
           title: "Product Added Successfully",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
         $("#mytb-products").load(location.href + " #mytb-products");
         pTitle.value = "";
@@ -372,8 +363,8 @@ function addProduct() {
         pQty.value = "";
         pPrice.value = "";
         p_image.value = "";
-        imageP.innerHTML = '<img src="img/img-ng.png" class="img-fluid rounded-3" id="" alt="Responsive image">';
-        
+        imageP.innerHTML =
+          '<img src="img/img-ng.png" class="img-fluid rounded-3" id="" alt="Responsive image">';
 
         addModal.hide();
       } else {
@@ -381,9 +372,7 @@ function addProduct() {
           icon: "error",
           title: "Oops...",
           text: this.responseText,
-          
         });
-       
       }
     }
   };
@@ -391,33 +380,22 @@ function addProduct() {
   req.send(form);
 }
 
-function updateProductStatus(propId){
-
+function updateProductStatus(propId) {
   const req = new XMLHttpRequest();
   req.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       if (this.responseText == "success") {
-        
         $("#mytb-products").load(location.href + " #mytb-products");
-        
-      }else{
+      } else {
         alert(this.responseText);
-
       }
     }
   };
   req.open("GET", "updateProductStatus.php?pid=" + propId + "", true);
   req.send();
-
-
-
 }
 
-
-
-function addCatogery(){
-  
-
+function addCatogery() {
   const newCatName = document.getElementById("newCat");
 
   const form = new FormData();
@@ -429,17 +407,14 @@ function addCatogery(){
     if (this.readyState == 4 && this.status == 200) {
       if (this.responseText == "success") {
         $("#newCatDiv").load(location.href + " #newCatDiv");
-        newCatName.value ="";
+        newCatName.value = "";
         Swal.fire({
-         
           icon: "success",
           title: "New Catogery Added Successfully",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
-
-
-      }else{
+      } else {
         alert(this.responseText);
       }
     }
@@ -448,9 +423,7 @@ function addCatogery(){
   req.send(form);
 }
 
-
-
-function addBrand(){
+function addBrand() {
   const newBrandName = document.getElementById("newBrandName");
 
   const form = new FormData();
@@ -462,56 +435,45 @@ function addBrand(){
     if (this.readyState == 4 && this.status == 200) {
       if (this.responseText == "success") {
         $("#newBrandDiv").load(location.href + " #newBrandDiv");
-        newBrandName.value ="";
+        newBrandName.value = "";
         Swal.fire({
-         
           icon: "success",
           title: "New Brand Added Successfully",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
-      }else{
+      } else {
         alert(this.responseText);
       }
     }
-  }
+  };
   req.open("POST", "addBrandProcess.php", true);
   req.send(form);
-
 }
-function addColour(){
+function addColour() {
   const newColour = document.getElementById("newColourName");
 
   const form = new FormData();
   form.append("newColour", newColour.value);
   const req = new XMLHttpRequest();
-  req.onreadystatechange = function(){
-    if(this.readyState == 4 && this.status == 200){
-      if(this.responseText == "success"){
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
         $("#newColorDiv").load(location.href + " #newColorDiv");
         newColour.value = "";
         Swal.fire({
-         
           icon: "success",
           title: "New Colour Added Successfully",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
-
-
-      }else{
+      } else {
         alert(this.responseText);
-
       }
-
     }
-  }
+  };
   req.open("POST", "addColourProcess.php", true);
   req.send(form);
-
-
-
-  
 }
 
 function updateProduct() {
@@ -549,7 +511,7 @@ function updateProduct() {
           icon: "success",
           title: "Product Updated Successfully",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
         $("#mytb-products").load(location.href + " #mytb-products");
         pId.value = "";
@@ -561,7 +523,8 @@ function updateProduct() {
         pQty.value = "";
         pPrice.value = "";
         p_image.value = "";
-        imageP.innerHTML = '<img src="img/img-ng.png" class="img-fluid rounded-3" id="" alt="Responsive image">';
+        imageP.innerHTML =
+          '<img src="img/img-ng.png" class="img-fluid rounded-3" id="" alt="Responsive image">';
         updateModal.hide();
       } else {
         Swal.fire({
@@ -576,40 +539,34 @@ function updateProduct() {
   req.send(form);
 }
 
-function privewProduct(pid){
+function privewProduct(pid) {
   const canBody = document.getElementById("canBody");
 
   const req = new XMLHttpRequest();
 
-  req.onreadystatechange = function(){
-    if(this.readyState == 4 && this.status == 200){
-      canBody.innerHTML =this.responseText;
-     
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      canBody.innerHTML = this.responseText;
     }
-  }
+  };
   req.open("GET", "privewProductProcess.php?pid=" + pid, true);
   req.send();
-
 }
 
-function searchAdProduct(cid){
-  const adDiv = document.getElementById('AdProducts')
+function searchAdProduct(cid) {
+  const adDiv = document.getElementById("AdProducts");
 
   const req = new XMLHttpRequest();
 
-  req.onreadystatechange = function(){
-    if(this.readyState == 4 && this.status == 200){
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
       adDiv.innerHTML = this.responseText;
-      
     }
-  }
+  };
   req.open("GET", "SearchAdProductProcess.php?cid=" + cid, true);
   req.send();
-  
-
-
 }
-function signOut(){
+function signOut() {
   var req = new XMLHttpRequest();
 
   req.onreadystatechange = function () {
@@ -624,13 +581,9 @@ function signOut(){
   };
   req.open("GET", "signoutProcess.php", true);
   req.send();
-
-
-
-
 }
 
-function updateUserProfile(){
+function updateUserProfile() {
   const fname = document.getElementById("fname_p");
   const lname = document.getElementById("lname_p");
   const mobile = document.getElementById("mobile_p");
@@ -643,7 +596,6 @@ function updateUserProfile(){
 
   const form = new FormData();
 
- 
   form.append("fname", fname.value);
   form.append("lname", lname.value);
   form.append("mobile", mobile.value);
@@ -653,35 +605,32 @@ function updateUserProfile(){
   form.append("city", city.value);
   form.append("zip", zip.value);
   form.append("edImg", edImg.files[0]);
-  
+
   const req = new XMLHttpRequest();
 
-  req.onreadystatechange = function (){
-    if(this.readyState == 4 && this.status == 200){
-      if(this.responseText == "success"){
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
         Swal.fire({
           icon: "success",
           title: "Profile Updated Successfully",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
-
-      }else{
+      } else {
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: this.responseText,
         });
-
-
       }
     }
-  }
-  req.open("POST","updateProfileProcess.php",true); 
+  };
+  req.open("POST", "updateProfileProcess.php", true);
   req.send(form);
 }
 
-function priviewImg(){
+function priviewImg() {
   const img = document.getElementById("ed-img");
 
   img.onchange = function () {
@@ -689,6 +638,312 @@ function priviewImg(){
     var url = window.URL.createObjectURL(file);
     document.getElementById("proimg").src = url;
   };
+}
+function searchProductsIndex() {
+  const searchInput = document.getElementById("search");
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = this.responseText;
+
+      document.getElementById("searchResult").innerHTML = res;
+    }
+  };
+  req.open("GET", "searchProcess.php?search=" + searchInput.value, true);
+  req.send();
+}
+
+function addToWishlist(pid) {
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = this.responseText;
+      if (res == "success") {
+        Swal.fire({
+          icon: "success",
+          title: "Profile Updated Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        alert("ok");
+      } else {
+        alert(res);
+      }
+    }
+  };
+  req.open("GET", "addToWishlistProcess.php?pid=" + pid, true);
+  req.send();
+}
+
+function increment(btnid, qty) {
+  const qtyIn = document.getElementById("qtyInput" + btnid);
+  if (qtyIn.value == qty) {
+    return;
+  } else {
+    qtyIn.value = parseInt(qtyIn.value) + 1;
+  }
+}
+function decrement(btnid) {
+  const qtyIn = document.getElementById("qtyInput" + btnid);
+  if (qtyIn.value == 1) {
+    return;
+  } else {
+    qtyIn.value = parseInt(qtyIn.value) - 1;
+  }
+}
+function deleteCart(cartId) {
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = this.responseText;
+      if (res == "success") {
+        Swal.fire({
+          icon: "success",
+          title: "Cart Deleted Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        $("#cartItems").load(location.href + " #cartItems");
+        $("#checkoutTotal").load(location.href + " #checkoutTotal");
+      } else {
+        alert(res);
+      }
+    }
+  };
+  req.open("GET", "deleteCartProcess.php?cartId=" + cartId, true);
+  req.send();
+}
+
+var myModal;
+function addToCart(pid) {
+  const req = new XMLHttpRequest();
+  myModal = new bootstrap.Modal(document.getElementById("cartModal"), focus);
+  myModal.show();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = this.responseText;
+      document.getElementById("cartcontent").innerHTML = res;
+    }
+  };
+  req.open("GET", "addToCartModalLoading.php?pid=" + pid, true);
+  req.send();
+}
+
+function plus(qty) {
+  const input = document.getElementById("cartInputQty");
+  if (input.value == qty) {
+    return;
+  } else {
+    input.value = parseInt(input.value) + 1;
+    $("#checkoutTotal").load(location.href + " #checkoutTotal");
+  }
+}
+
+function minus() {
+  const input = document.getElementById("cartInputQty");
+  if (input.value == 1) {
+    return;
+  } else {
+    input.value = parseInt(input.value) - 1;
+  }
+}
+
+function addToCartmain(pid) {
+  const qty = document.getElementById("cartInputQty").value;
+  const form = new FormData();
+  form.append("pid", pid);
+  form.append("qty", qty);
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = this.responseText;
+      if (res == "success") {
+        Swal.fire({
+          icon: "success",
+          title: "Product Added Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        myModal.hide();
+
+        $("#cartItems").load(location.href + " #cartItems");
+      } else {
+        myModal.hide();
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: res,
+        });
+      }
+    }
+  };
+  req.open("POST", "addToCartMainProcess.php", true);
+  req.send(form);
+}
+
+function updateQty(cartid, e) {
+  const qty = document.getElementById("qtyInput" + e);
+
+  const form = new FormData();
+  form.append("cartid", cartid);
+  form.append("qty", qty.value);
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = this.responseText;
+      if (res == "success") {
+        $("#cartItems").load(location.href + " #cartItems");
+        $("#checkoutTotal").load(location.href + " #checkoutTotal");
+      } else {
+        alert(res);
+      }
+    }
+  };
+  req.open("POST", "updateCartQtyProcess.php", true);
+  req.send(form);
+}
+
+function showAnimatedAlert(type, message) {
+  var alertDiv = document.createElement("div");
+  alertDiv.classList.add(
+    "alert",
+    "alert-" + type,
+    "alert-dismissible",
+    "fade",
+    "show"
+  );
+  alertDiv.setAttribute("role", "alert");
+  alertDiv.innerHTML = `
+      <strong>${type === "success" ? "Success!" : "Error!"}</strong> ${message}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  `;
+  var alertContainer = document.getElementById("alert-container");
+  alertContainer.innerHTML = "";
+  alertContainer.appendChild(alertDiv);
+  setTimeout(function () {
+    alertDiv.classList.remove("show");
+    setTimeout(function () {
+      alertDiv.remove();
+    }, 300);
+  }, 2000);
+}
+
+
+function updateCartStatus(cartId, id){
+ 
 
   
+  const check = document.getElementById('itemCheck'+id).checked;
+  const form = new FormData();
+  form.append("cartId", cartId);
+  form.append("check", check);
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = this.responseText;
+      if (res == "success") {
+        check.checked = true;
+        
+        $("#checkoutTotal").load(location.href + " #checkoutTotal");
+      } else {
+        alert(res);
+      }
+    }
+
+  }
+
+  req.open("POST", "updateCartStatusProcess.php", true);
+  req.send(form);
+  
+
+ 
+  
+
+  
+
+}
+
+// payment functions
+
+function payNow(oNum, tot) {
+  const form = new FormData();
+  form.append("tot", tot);
+  form.append("oNum", oNum);
+
+  
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        window.location.href = "paymentOptions.php";
+      } else {
+        alert(this.responseText);
+      }
+
+      
+    }
+  };
+  
+    request.open("POST", "payNowProcess.php", true);
+    request.send(form);
+  
+}
+
+function orderConfirm(){
+
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        window.location.href = "thankYou.php";
+      } else {
+        alert(this.responseText);
+      }
+    }
+  };
+  request.open("GET", "orderConfirmProcess.php", true);
+  request.send();
+
+}
+
+function updatePaymentMethod(e) {
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = this.responseText;
+      if (res == "success") {
+        window.location.href = "cashOnDelivery.php";
+
+
+      } else {
+        alert(res);
+      }
+    }
+  };
+  req.open("GET", "updatePaymentMethodProcess.php?method=" + e, true); 
+  req.send();
+}
+
+function payFromOders(onum){
+
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        window.location.href = "paymentOptions.php";
+      } else {
+        alert(this.responseText);
+      }
+
+    }
+  };
+  request.open("GET", "payFromOdersProcess.php?onum=" + onum, true);
+  request.send();
+
 }
