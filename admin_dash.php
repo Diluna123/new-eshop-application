@@ -178,7 +178,7 @@
           <a href="#" data-content="m-users">Manage Users</a>
         </li>
         <li>
-          <a href="#" data-content="contact">Contact</a>
+          <a href="#" data-content="contact">Orders</a>
         </li>
       </ul>
     </nav>
@@ -328,7 +328,7 @@
 
                 ?>
                     <div class="col ">
-                      <div class="card   my-p-c " >
+                      <div class="card   my-p-c ">
                         <div data-bs-toggle="offcanvas" data-bs-target="#offcanvasOffers" aria-controls="offcanvasOffers" onclick="privewProduct(<?php echo $pData['p_id']; ?>);">
 
                           <img src="<?php echo $pData["p_img"]; ?>" class="card-img-top" alt="...">
@@ -772,13 +772,144 @@
 
         <!-- Additional sections like Services and Contact -->
         <div id="m-users" class="content-section d-none">
+
           <h2>Manage Users</h2>
-          <p>These are the services we offer.</p>
+          <div class="row mt-5">
+            <div class="col-12">
+              <table class="table table-hover" id="userTable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">E - mail</th>
+                    <th scope="col">Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+
+                  $urs = Database::search("SELECT * FROM `cutomer_details`");
+                  $n = $urs->num_rows;
+                  if ($n == 0) {
+                  ?>
+                    <tr>
+                      <th scope="row"></th>
+                      <td></td>
+                      <td></td>
+                      <td>No Users</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+
+                    <?php
+
+
+                  } else {
+                    for ($i = 0; $i < $n; $i++) {
+                      $data = $urs->fetch_assoc();
+                    ?>
+                      <tr>
+                        <th scope="row"><?php echo $data["id"]; ?></th>
+                        <td><?php echo $data["fname"]; ?></td>
+                        <td><?php echo $data["lname"]; ?></td>
+                        <td><?php echo $data["mobile"]; ?></td>
+                        <td><?php echo $data["email"]; ?></td>
+                        <td>
+                          <div class="op">
+                            <button class="btn btn-danger btn-sm" onclick="deleteUser('<?php echo $data['id']; ?>');"><i class="fas fa-ban"></i></button>
+                          </div>
+                        </td>
+                      </tr>
+
+
+                  <?php
+                    }
+                  }
+                  ?>
+
+
+
+                </tbody>
+              </table>
+              <div class="row">
+                <div class="col-12 d-flex justify-content-end">
+                  <button class="btn btn-primary mb-3" onclick="printTable()">Print User List</button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
         <div id="contact" class="content-section d-none">
-          <h2>Contact</h2>
+          <h2>Orders</h2>
           <p>Get in touch with us through this page.</p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Order Number</th>
+                <th scope="col">Date</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Total</th>
+                <th scope="col">Pay Method</th>
+
+                <th scope="col">Options</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+
+              $ors = Database::search("SELECT * FROM `invoice` JOIN `cutomer_details` ON `invoice`.`cutomer_details_id` = `cutomer_details`.`id` JOIN `pay_method` ON `invoice`.`pay_method_mid` = `pay_method`.`mid` WHERE `invoice`.`order_status_id`='2'");
+              $n = $ors->num_rows;
+              if ($n == 0) {
+              ?>
+                <tr>
+                  <th scope="row"></th>
+                  <td></td>
+                  <td></td>
+                  <td>No Orders You have</td>
+                  <td></td>
+                  <td></td>
+                  <td>
+
+
+                    <?php
+                  } else {
+                    for ($i = 0; $i < $n; $i++) {
+                      $dataO = $ors->fetch_assoc();
+                    ?>
+                <tr>
+                  <th scope="row">#<?php echo $dataO['order_num']?></th>
+                  <td><?php echo $dataO['date']?></td>
+                  <td><?php echo $dataO['email']?> </td>
+              
+                  <td>Rs. <?php echo $dataO['total']?></td>
+                  <td><?php echo $dataO['method']?></td>
+                  <td></td>
+                </tr>
+
+
+
+            <?php
+
+
+
+                    }
+                  }
+
+
+
+
+
+            ?>
+
+
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -791,6 +922,17 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script src="js/script.js"></script>
+  <script>
+    function printTable() {
+      var divToPrint = document.getElementById("userTable");
+      var newWin = window.open("");
+      newWin.document.write(divToPrint.outerHTML);
+      newWin.document.close();
+      newWin.focus();
+      newWin.print();
+      newWin.close();
+    }
+  </script>
 </body>
 
 </html>

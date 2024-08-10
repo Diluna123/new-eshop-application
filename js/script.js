@@ -706,8 +706,7 @@ function deleteCart(cartId) {
           timer: 1500,
         });
 
-        $("#cartItems").load(location.href + " #cartItems");
-        $("#checkoutTotal").load(location.href + " #checkoutTotal");
+        window.location.reload();
       } else {
         alert(res);
       }
@@ -733,12 +732,25 @@ function addToCart(pid) {
 }
 
 function plus(qty) {
-  const input = document.getElementById("cartInputQty");
-  if (input.value == qty) {
+  const input1 = document.getElementById("cartInputQty");
+
+  if (input1.value == qty) {
     return;
   } else {
-    input.value = parseInt(input.value) + 1;
-    $("#checkoutTotal").load(location.href + " #checkoutTotal");
+    input1.value = parseInt(input1.value) + 1;
+
+   
+  }
+}
+function plus2(qty) {
+  const input1 = document.getElementById("cartInputQty2");
+
+  if (input1.value == qty) {
+    return;
+  } else {
+    input1.value = parseInt(input1.value) + 1;
+
+   
   }
 }
 
@@ -750,7 +762,14 @@ function minus() {
     input.value = parseInt(input.value) - 1;
   }
 }
-
+function minus2() {
+  const input = document.getElementById("cartInputQty2");
+  if (input.value == 1) {
+    return;
+  } else {
+    input.value = parseInt(input.value) - 1;
+  }
+}
 function addToCartmain(pid) {
   const qty = document.getElementById("cartInputQty").value;
   const form = new FormData();
@@ -762,13 +781,13 @@ function addToCartmain(pid) {
     if (this.readyState == 4 && this.status == 200) {
       const res = this.responseText;
       if (res == "success") {
+       
         Swal.fire({
           icon: "success",
           title: "Product Added Successfully",
           showConfirmButton: false,
           timer: 1500,
         });
-        myModal.hide();
 
         $("#cartItems").load(location.href + " #cartItems");
       } else {
@@ -833,12 +852,8 @@ function showAnimatedAlert(type, message) {
   }, 2000);
 }
 
-
-function updateCartStatus(cartId, id){
- 
-
-  
-  const check = document.getElementById('itemCheck'+id).checked;
+function updateCartStatus(cartId, id) {
+  const check = document.getElementById("itemCheck" + id).checked;
   const form = new FormData();
   form.append("cartId", cartId);
   form.append("check", check);
@@ -849,24 +864,24 @@ function updateCartStatus(cartId, id){
       const res = this.responseText;
       if (res == "success") {
         check.checked = true;
-        
+        window.location.reload();
+
         $("#checkoutTotal").load(location.href + " #checkoutTotal");
       } else {
         alert(res);
       }
     }
-
-  }
+  };
 
   req.open("POST", "updateCartStatusProcess.php", true);
   req.send(form);
-  
+}
 
- 
-  
+function singleProductView(pid) {
+  const pidd = pid;
 
+  window.location.href = "singleProductView.php?pid=" + pid;
   
-
 }
 
 // payment functions
@@ -876,27 +891,40 @@ function payNow(oNum, tot) {
   form.append("tot", tot);
   form.append("oNum", oNum);
 
-  
   const request = new XMLHttpRequest();
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       if (this.responseText == "success") {
         window.location.href = "paymentOptions.php";
       } else {
-        alert(this.responseText);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: this.responseText,
+        });
       }
+    }
+  };
 
+  request.open("POST", "payNowProcess.php", true);
+  request.send(form);
+}
+
+function buyNow(pid){
+  const cbody = document.getElementById("buyNowContent");
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      cbody.innerHTML = this.responseText;
       
     }
   };
-  
-    request.open("POST", "payNowProcess.php", true);
-    request.send(form);
-  
+  req.open("GET", "buyNowProcess.php?pid="+pid, true);
+  req.send();
+
 }
 
-function orderConfirm(){
-
+function orderConfirm() {
   const request = new XMLHttpRequest();
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -909,7 +937,6 @@ function orderConfirm(){
   };
   request.open("GET", "orderConfirmProcess.php", true);
   request.send();
-
 }
 
 function updatePaymentMethod(e) {
@@ -919,19 +946,16 @@ function updatePaymentMethod(e) {
       const res = this.responseText;
       if (res == "success") {
         window.location.href = "cashOnDelivery.php";
-
-
       } else {
         alert(res);
       }
     }
   };
-  req.open("GET", "updatePaymentMethodProcess.php?method=" + e, true); 
+  req.open("GET", "updatePaymentMethodProcess.php?method=" + e, true);
   req.send();
 }
 
-function payFromOders(onum){
-
+function payFromOders(onum) {
   const request = new XMLHttpRequest();
   request.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -940,10 +964,83 @@ function payFromOders(onum){
       } else {
         alert(this.responseText);
       }
-
     }
   };
   request.open("GET", "payFromOdersProcess.php?onum=" + onum, true);
   request.send();
+}
+
+function buyNowContinue(pid, onum){
+  const qty = document.getElementById("cartInputQty2");
+  const form = new FormData();
+  form.append("pid", pid);
+  form.append("onum", onum);
+  form.append("qty", qty.value);
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        window.location.href = "paymentOptions.php";
+      } else {
+        alert(this.responseText);
+      }
+    }
+  };
+  request.open("POST", "buyNowContinueProcess.php", true);
+  request.send(form);
+   
+
+
 
 }
+
+// end of payment functions
+
+function viewFromOrders(onum) {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        window.location.href = "cashOndelivery.php";
+      } else {
+        alert(this.responseText);
+      }
+    }
+  };
+  request.open("GET", "payFromOdersProcess.php?onum=" + onum, true);
+  request.send();
+}
+
+function productReview(pid, onum) {
+  const url = "productReview.php?pid=" + encodeURIComponent(pid) + "&onum=" + encodeURIComponent(onum);
+  window.location.href = url;
+}
+function addReview(pid, onum) {
+ 
+  const review = document.getElementById("review");
+  
+
+  const form = new FormData();
+  form.append("pid", pid);
+  form.append("onum", onum);
+  form.append("comment", review.value);
+
+  const req = new XMLHttpRequest();
+
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = this.responseText;
+      if (res == "success") {
+
+        
+       window.location.reload();
+        
+      } else {
+        alert(res);
+      }
+    }
+  };
+  req.open("POST", "productReviewProcess.php", true);
+  req.send(form);
+}
+

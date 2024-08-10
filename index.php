@@ -188,8 +188,10 @@ session_start();
         }
 
         .product-card img {
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
             transition: transform .3s;
 
         }
@@ -256,6 +258,7 @@ session_start();
         .slick-slide {
             padding: 10px;
         }
+
         .btn1 {
             border-radius: 30px 0 0 30px;
         }
@@ -263,6 +266,8 @@ session_start();
         .btn2 {
             border-radius: 0 30px 30px 0;
         }
+
+        /* Add more styles as needed */
     </style>
 </head>
 
@@ -364,29 +369,21 @@ session_start();
         </div>
     </div> -->
     <section class="herosec container">
-        <div class="row d-flex justify-content-center">
-            <div class="col-lg-8 col-sm-12 d-flex mt-3">
-                <div class="input-group   ">
 
-                    <input type="text" class="form-control form-control-sm" id="search" placeholder="Search Products">
-                    <a href="#items"><button class="btn btn-sm btn-warning" onclick="searchProductsIndex();"><i class="fa-solid fa-magnifying-glass"></i></button></a>
-                </div>
-            </div>
-        </div>
 
-        <div id="carouselExampleFade" class="carousel slide carousel-fade mt-5 mb-5" data-bs-ride="carousel" data-bs-interval="2000">
+        <div id="carouselExampleFade" class="carousel slide carousel-fade mt-2 mb-5" data-bs-ride="carousel" data-bs-interval="2000">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="img/slid2.jpg" class="d-block w-100 b-h" alt="...">
+                <div class="carousel-item active" >
+                    <img src="img/slid2.jpg" height="550px" class="d-block w-100 " alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="img/slid1.png" class="d-block w-100 b-h" alt="...">
+                    <img src="img/slid1.png" class="d-block w-100 " height="550px" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="img/slid3.jpg" class="d-block w-100 b-h" alt="...">
+                    <img src="img/slid3.jpg" class="d-block w-100 " height="550px" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="img/slid4.jpg" class="d-block w-100 b-h" alt="...">
+                    <img src="img/slid4.jpg" class="d-block w-100 " height="550px" alt="...">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
@@ -404,6 +401,15 @@ session_start();
 
 
     <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-8 col-sm-12 d-flex mt-1">
+                <div class="input-group   ">
+
+                    <input type="text" class="form-control form-control-sm" id="search" placeholder="Search Products">
+                    <a href="#items"><button class="btn btn-sm btn-warning" onclick="searchProductsIndex();"><i class="fa-solid fa-magnifying-glass"></i></button></a>
+                </div>
+            </div>
+        </div>
         <section class="new-collection vh-95 mb-5">
             <div class="row mb-5">
                 <h2 class="mt-5">New Collection</h2>
@@ -411,7 +417,7 @@ session_start();
             </div>
 
 
-            <div class="card p-3" style="  background-color: #404040; border-radius: 10px;">
+            <div class="card p-3 h-100" style="  background-color: #404040; border-radius: 10px;">
 
                 <div class="carousel" id="productCarousel">
                     <?php
@@ -421,13 +427,13 @@ session_start();
                         $newData = $newRs->fetch_assoc();
                     ?>
                         <div class="col">
-                            <div class="card product-card">
+                            <div class="card product-card" onclick="singleProductView(<?php echo $newData['p_id'] ?>);">
                                 <img src="<?php echo $newData["p_img"]; ?>" class="card-img-top" alt="Product Image">
                                 <div class="body2 card-body">
-                                    <h5 class="card-title"><?php echo $newData["p_title"]; ?></h5>
-                                    <p class="card-text"><?php echo $newData["p_dis"]; ?></p>
-                                    <p class="price">Rs. <?php echo $newData["price"]; ?></p>
-                                    <a  class="btn btn-warning" onclick="addToCart(<?php echo $newData['p_id']; ?>)">Add to Cart</a>
+                                    <h5 class="card-title mt-2 mb-4"><?php echo $newData["p_title"]; ?></h5>
+                                    <p class=" mt-0"><span class="badge bg-secondary">New</span></p>
+                                    <p class="price mt-0">Rs. <?php echo $newData["price"]; ?></p>
+                                    <a class="btn btn-warning mt-0" onclick="addToCart(<?php echo $newData['p_id']; ?>)">Add to Cart</a>
                                 </div>
                             </div>
                         </div>
@@ -487,7 +493,7 @@ session_start();
                             $pro = $prs->fetch_assoc();
                     ?>
                             <div class="col">
-                                <div class="card product-card text-center ">
+                                <div class="card product-card text-center " onclick="singleProductView(<?php echo $pro['p_id'] ?>);">
                                     <div>
 
 
@@ -535,7 +541,7 @@ session_start();
                                         ?>
                                             <p class="card-text"><?php echo $pro["p_dis"] ?></p>
                                             <h3 class="card-text text-warning">Rs. <?php echo $pro["price"] ?></h3>
-                                            <a  class="btn btn-warning" onclick="addToCart(<?php echo $pro['p_id']; ?>)">Add to Cart</a>
+                                            <a class="btn btn-warning" onclick="addToCart(<?php echo $pro['p_id']; ?>)">Add to Cart</a>
 
 
 
@@ -600,9 +606,9 @@ session_start();
     </div>
     <!-- add cart modal begin -->
     <div class="modal fade" tabindex="-1" id="cartModal">
-    <div class="modal-dialog modal-dialog-centered" id="cartcontent">
+        <div class="modal-dialog modal-dialog-centered" id="cartcontent">
 
-    </div>
+        </div>
     </div>
     <!-- add cart modal end -->
 
@@ -615,7 +621,7 @@ session_start();
 
     <script src="js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -18,7 +18,7 @@ if ($pnums > 0) {
 ?>
 
         <div class="col">
-            <div class="card product-card text-center ">
+            <div class="card product-card text-center " onclick="singleProductView(<?php echo $pro['p_id'] ?>);">
                 <div>
 
 

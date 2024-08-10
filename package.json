@@ -1,0 +1,15 @@
+{
+  "name": "new-eshop-application",
+  "version": "1.0.0",
+  "description": "Welcome to Black 42 Shop, an innovative e-commerce platform designed to provide an exceptional online shopping experience. This README document will guide you through the setup, usage, and contribution process for the Black 42 Shop project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
