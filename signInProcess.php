@@ -19,7 +19,7 @@ if(empty($email)){
     echo "Password is too short";
 }else{
 
-    $rs = Database::search("SELECT * FROM `cutomer_details` WHERE `email` = '$email'");
+    $rs = Database::search("SELECT * FROM `cutomer_details` WHERE `email` = '$email'  ");
     $num = $rs->num_rows;
     if($num == 0){
         echo "Email Does Not Exists Please Create An Account or Check Your Email";
@@ -28,7 +28,11 @@ if(empty($email)){
         $data = $rs->fetch_assoc();
         if($data["psd"] != $psw){
             echo "Password Does Not Match";
-        }else{
+        }else if($data['status_s_id']== 2){
+            echo "ACCOUNT DEACTIVATED PLEASE CONTACT ADMINISTRATOR";
+
+        }
+        else{
             $_SESSION["user"] = $data;
            
             if($checkRes == "true"){
