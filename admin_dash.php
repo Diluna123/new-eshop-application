@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php include "connection.php"; ?>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
   <meta charset="UTF-8">
@@ -10,10 +10,13 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
     body {
       display: flex;
       min-height: 100vh;
       flex-direction: column;
+
     }
 
     .mybtn {
@@ -156,6 +159,43 @@
       max-width: 100%;
       max-height: 50%;
     }
+
+    .table {
+      font-family: Roboto;
+    }
+
+    /* Custom CSS to expand offcanvas width */
+    .custom-offcanvas-width {
+      width: 600px !important;
+      /* Set your desired width */
+    }
+
+    @media print {
+      .btn {
+        display: none;
+      }
+
+      .table-responsive {
+        display: none;
+      }
+
+      #sidebar {
+        display: none;
+      }
+
+      #content {
+        display: none;
+      }
+
+      .custom-offcanvas-width {
+        width: 1920px !important;
+        /* Set your desired width */
+      }
+
+     
+
+    }
+    
   </style>
 </head>
 
@@ -776,63 +816,97 @@
           <h2>Manage Users</h2>
           <div class="row mt-5">
             <div class="col-12">
-              <table class="table table-hover" id="userTable">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Mobile</th>
-                    <th scope="col">E - mail</th>
-                    <th scope="col">Options</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php
-
-                  $urs = Database::search("SELECT * FROM `cutomer_details`");
-                  $n = $urs->num_rows;
-                  if ($n == 0) {
-                  ?>
+              <div class="row mb-3">
+                <div class="col-12 d-flex justify-content-end">
+                  <div class="col-lg-4 col-md-8 col-sm-12 col-12">
+                    <div class="row">
+                      <div class="col-lg-10 col-md-8 col-sm-8 col-8">
+                         <input type="text" class="form-control form-control-sm" id="searchUser" placeholder="Search Users">
+                      </div>
+                      <div class="col-lg-2 col-md-4 col-sm-4 col-4 d-grid">
+                         <button class="btn d-grid btn-sm btn-warning rounded-2" onclick="uSearch();">Search</button>
+                      </div>
+                     
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover" id="userTable">
+                  <thead>
                     <tr>
-                      <th scope="row"></th>
-                      <td></td>
-                      <td></td>
-                      <td>No Users</td>
-                      <td></td>
-                      <td></td>
+                      <th scope="col">#</th>
+                      <th scope="col">First Name</th>
+                      <th scope="col">Last Name</th>
+                      <th scope="col">Mobile</th>
+                      <th scope="col">E - mail</th>
+                      <th scope="col">Options</th>
                     </tr>
-
+                  </thead>
+                  <tbody id="uTBody">
                     <?php
 
-
-                  } else {
-                    for ($i = 0; $i < $n; $i++) {
-                      $data = $urs->fetch_assoc();
+                    $urs = Database::search("SELECT * FROM `cutomer_details`");
+                    $n = $urs->num_rows;
+                    if ($n == 0) {
                     ?>
                       <tr>
-                        <th scope="row"><?php echo $data["id"]; ?></th>
-                        <td><?php echo $data["fname"]; ?></td>
-                        <td><?php echo $data["lname"]; ?></td>
-                        <td><?php echo $data["mobile"]; ?></td>
-                        <td><?php echo $data["email"]; ?></td>
-                        <td>
-                          <div class="op">
-                            <button class="btn btn-danger btn-sm" onclick="deleteUser('<?php echo $data['id']; ?>');"><i class="fas fa-ban"></i></button>
-                          </div>
-                        </td>
+                        <th scope="row"></th>
+                        <td></td>
+                        <td></td>
+                        <td>No Users</td>
+                        <td></td>
+                        <td></td>
                       </tr>
 
+                      <?php
 
-                  <?php
+
+                    } else {
+                      for ($i = 0; $i < $n; $i++) {
+                        $data = $urs->fetch_assoc();
+                      ?>
+                        <tr onclick="viewUser('<?php echo $data['id']; ?>');" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample2" aria-controls="offcanvasExample2">
+                          <th scope="row"><?php echo $data["id"]; ?></th>
+                          <td><?php echo $data["fname"]; ?></td>
+                          <td><?php echo $data["lname"]; ?></td>
+                          <td><?php echo $data["mobile"]; ?></td>
+                          <td><?php echo $data["email"]; ?></td>
+                          <td>
+                            <div class="op">
+                              <?php
+
+                              if ($data["status_s_id"] == 1) {
+                              ?>
+
+                                <button class="btn btn-danger btn-sm" onclick="blockUser('<?php echo $data['id']; ?>');"><i class="fas fa-ban"></i></button>
+
+                              <?php
+
+                              } else {
+                              ?>
+
+                                <button class="btn btn-success btn-sm" onclick="blockUser('<?php echo $data['id']; ?>');"><i class="fas fa-check"></i></button>
+                              <?php
+
+                              }
+                              ?>
+                            </div>
+                          </td>
+                        </tr>
+
+
+                    <?php
+                      }
                     }
-                  }
-                  ?>
+                    ?>
 
 
 
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div>
               <div class="row">
                 <div class="col-12 d-flex justify-content-end">
                   <button class="btn btn-primary mb-3" onclick="printTable()">Print User List</button>
@@ -848,91 +922,285 @@
         <div id="contact" class="content-section d-none">
           <h2>Orders</h2>
           <p>Get in touch with us through this page.</p>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Order Number</th>
-                <th scope="col">Date</th>
-                <th scope="col">Customer</th>
-                <th scope="col">Total</th>
-                <th scope="col">Pay Method</th>
+          <div class="row">
+            <div class="col-12 d-flex justify-content-end">
+              <div class="col-lg-5 col-md-10 col-sm-12 col-12">
+                <div class="row">
+                  <div class="col-3">
+                    <select name="" id="filterOrder" class="form-select form-select-sm" onchange="filterOrder();">
+                      <option value="00">All</option>
+                      <option value="1">Processing</option>
+                      <option value="2">Shipped</option>
 
-                <th scope="col">Options</th>
-              </tr>
-            </thead>
-            <tbody>
+                    </select>
+                  </div>
+                  <div class="col-7"> <input type="text" id="oSearch" class="form-control form-control-sm " placeholder="Search"></div>
+                  <div class="col-2"><button class="btn btn-warning btn-sm" onclick="oSearch();">Search</button></div>
+
+
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="table-responsive" id="oTab">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Order Number</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Customer</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Pay Method</th>
+
+
+                </tr>
+              </thead>
+              <tbody id="newOtable">
+                <?php
+
+                $ors = Database::search("SELECT * FROM `invoice` JOIN `cutomer_details` ON `invoice`.`cutomer_details_id` = `cutomer_details`.`id` JOIN `pay_method` ON `invoice`.`pay_method_mid` = `pay_method`.`mid` WHERE `invoice`.`order_status_id`='2' ORDER BY `invoice`.`date` DESC");
+                $n = $ors->num_rows;
+                if ($n == 0) {
+                ?>
+                  <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td></td>
+
+                    <td>No Orders You have</td>
+                    <td></td>
+                    <td></td>
+
+
+                  </tr>
+
+
+                  <?php
+                } else {
+                  for ($i = 0; $i < $n; $i++) {
+                    $dataO = $ors->fetch_assoc();
+                  ?>
+                    <tr onclick="viewOrder('<?php echo $dataO['order_num'] ?>')" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                      <th scope="row" class="fw-light">#<?php echo $dataO['order_num'] ?></th>
+                      <td><?php echo $dataO['date'] ?></td>
+                      <td><?php echo $dataO['email'] ?> </td>
+                      <?php
+                      if ($dataO["ad_order_s_ad_o_s"] == 1) {
+                      ?>
+                        <td><span class="badge bg-info">Processing</span></td>
+
+                      <?php
+
+                      } else if ($dataO["ad_order_s_ad_o_s"] == 2) {
+                      ?>
+                        <td><span class="badge bg-warning">Shipped</span></td>
+
+                      <?php
+
+                      } else if ($dataO["ad_order_s_ad_o_s"] == 3) {
+                      ?>
+                        <td><span class="badge bg-success">Completed</span></td>
+
+                      <?php
+
+                      } else {
+                      ?>
+                        <td><span class="badge bg-danger">Canceled</span></td>
+                      <?php
+
+                      }
+
+
+                      ?>
+
+
+                      <td>Rs. <?php echo $dataO['total'] ?></td>
+                      <td class="text-capitalize""><?php echo $dataO['method'] ?></td>
+                  
+                  </tr>
+
+
+
               <?php
 
-              $ors = Database::search("SELECT * FROM `invoice` JOIN `cutomer_details` ON `invoice`.`cutomer_details_id` = `cutomer_details`.`id` JOIN `pay_method` ON `invoice`.`pay_method_mid` = `pay_method`.`mid` WHERE `invoice`.`order_status_id`='2'");
-              $n = $ors->num_rows;
-              if ($n == 0) {
-              ?>
-                <tr>
-                  <th scope="row"></th>
-                  <td></td>
-                  <td></td>
-                  <td>No Orders You have</td>
-                  <td></td>
-                  <td></td>
-                  <td>
 
 
-                    <?php
-                  } else {
-                    for ($i = 0; $i < $n; $i++) {
-                      $dataO = $ors->fetch_assoc();
-                    ?>
-                <tr>
-                  <th scope="row">#<?php echo $dataO['order_num']?></th>
-                  <td><?php echo $dataO['date']?></td>
-                  <td><?php echo $dataO['email']?> </td>
-              
-                  <td>Rs. <?php echo $dataO['total']?></td>
-                  <td><?php echo $dataO['method']?></td>
-                  <td></td>
-                </tr>
-
-
-
-            <?php
-
-
-
-                    }
                   }
+                }
 
 
 
 
 
-            ?>
+              ?>
 
 
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
+          <!-- Completed Orders -->
+          <div class=" row mt-3">
+                        <h3>Completed Orders</h3>
+                        <div class="table-responsive" id="oTabC">
+                          <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th scope="col">Order Number</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Pay Method</th>
+
+
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php
+
+                              $ors = Database::search("SELECT * FROM `invoice` JOIN `cutomer_details` ON `invoice`.`cutomer_details_id` = `cutomer_details`.`id` JOIN `pay_method` ON `invoice`.`pay_method_mid` = `pay_method`.`mid` WHERE `invoice`.`order_status_id`='3' ORDER BY `invoice`.`date` DESC");
+                              $n = $ors->num_rows;
+                              if ($n == 0) {
+                              ?>
+                                <tr>
+                                  <th scope="row"></th>
+                                  <td></td>
+                                  <td></td>
+
+                                  <td>No Orders You have</td>
+                                  <td></td>
+                                  <td></td>
+
+
+                                </tr>
+
+
+                                <?php
+                              } else {
+                                for ($i = 0; $i < $n; $i++) {
+                                  $dataO = $ors->fetch_assoc();
+                                ?>
+                                  <tr onclick="viewOrder('<?php echo $dataO['order_num'] ?>')" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                                    <th scope="row" class="fw-light">#<?php echo $dataO['order_num'] ?></th>
+                                    <td><?php echo $dataO['date'] ?></td>
+                                    <td><?php echo $dataO['email'] ?> </td>
+                                    <?php
+                                    if ($dataO["ad_order_s_ad_o_s"] == 1) {
+                                    ?>
+                                      <td><span class="badge bg-info">Processing</span></td>
+
+                                    <?php
+
+                                    } else if ($dataO["ad_order_s_ad_o_s"] == 2) {
+                                    ?>
+                                      <td><span class="badge bg-warning">Shipped</span></td>
+
+                                    <?php
+
+                                    } else if ($dataO["ad_order_s_ad_o_s"] == 3) {
+                                    ?>
+                                      <td><span class="badge bg-success">Completed</span></td>
+
+                                    <?php
+
+                                    } else {
+                                    ?>
+                                      <td><span class="badge bg-danger">Canceled</span></td>
+                                    <?php
+
+                                    }
+
+
+                                    ?>
+
+
+                                    <td>Rs. <?php echo $dataO['total'] ?></td>
+                                    <td class="text-capitalize""><?php echo $dataO['method'] ?></td>
+                  
+                  </tr>
+
+
+
+              <?php
+
+
+
+                                }
+                              }
+
+
+
+
+
+              ?>
+
+
+              </tbody>
+            </table>
+          </div>
+
+
+          </div>
+
+
+
+
+
         </div>
       </div>
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <div class=" offcanvas offcanvas-end custom-offcanvas-width" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                                      <div class="" id="off-content">
 
-  <script src="js/script.js"></script>
-  <script>
-    function printTable() {
-      var divToPrint = document.getElementById("userTable");
-      var newWin = window.open("");
-      newWin.document.write(divToPrint.outerHTML);
-      newWin.document.close();
-      newWin.focus();
-      newWin.print();
-      newWin.close();
-    }
-  </script>
+                                      </div>
+                                      <div class="loding h-100 d-flex flex-column justify-content-center align-items-center d-none" id="loading">
+                                        <div class="spinner-border text-warning" role="status">
+                                          <span class="visually-hidden">Loading...</span>
+
+                                        </div>
+                                        <h5 class="mt-2 fw-light text-secondary">Processing</h5>
+                                      </div>
+
+                        </div>
+
+                        <div class="offcanvas offcanvas-end custom-offcanvas-width" tabindex="-1" id="offcanvasExample2" aria-labelledby="offcanvasExampleLabel">
+                          <div id="viewUsreCon">
+
+                          </div>
+
+                        </div>
+
+                        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                        <script src="js/script.js"></script>
+                        <script>
+                          function printTable() {
+                            var divToPrint = document.getElementById("userTable");
+                            var newWin = window.open("");
+                            newWin.document.write('<h1 class="mt-3 mb-4">Customer List</h1>');
+                            newWin.document.write(divToPrint.outerHTML);
+                            newWin.document.write('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">');
+                            newWin.document.close();
+                            newWin.focus();
+                            newWin.print();
+                            newWin.close();
+                          }
+
+                          function printDiv() {
+                            print();
+                          }
+                        </script>
 </body>
 
 </html>
