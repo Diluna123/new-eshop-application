@@ -50,10 +50,10 @@ $productData = $productRs->fetch_assoc();
 
 
     <div class="container" id="">
-        
+
         <div class="row mt-5">
             <div class="col-lg-12">
-            <i class="fa-regular fa-circle-left fa-2x" onclick="window.history.back();"></i>
+                <i class="fa-regular fa-circle-left fa-2x" onclick="window.history.back();"></i>
 
 
             </div>
@@ -98,16 +98,39 @@ $productData = $productRs->fetch_assoc();
 
                 </div>
                 <div class="row">
-                    <div class="col-lg-6 d-grid mb-md-2 mb-lg-0 mb-sm-2 mb-2">
+                    <?php
+                    if ($productData['qty'] == 0) {
+                    ?>
+                        <div class="col-lg-12 d-grid mb-md-2 mb-lg-0 mb-sm-2 mb-2">
 
-                        <button class="btn  btn-warning rounded-4" onclick="addToCartmain('<?php echo $pid; ?>')">Add To Cart</button>
+                            <button class="btn  btn-warning rounded-4" >Add To Watchlist</button>
 
-                    </div>
-                    <div class="col-lg-6 d-grid">
+                        </div>
 
-                        <button class="btn btn-outline-warning rounded-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onclick="buyNow(<?php echo $pid; ?>);">Buy Now</button>
 
-                    </div>
+
+
+                    <?php
+                    } else {
+                    ?>
+                        <div class="col-lg-6 d-grid mb-md-2 mb-lg-0 mb-sm-2 mb-2">
+
+                            <button class="btn  btn-warning rounded-4" onclick="addToCartmain('<?php echo $pid; ?>')">Add To Cart</button>
+
+                        </div>
+                        <div class="col-lg-6 d-grid">
+
+                            <button class="btn btn-outline-warning rounded-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" onclick="buyNow(<?php echo $pid; ?>);">Buy Now</button>
+
+                        </div>
+
+
+                    <?php
+                    }
+
+
+                    ?>
+
                 </div>
 
 
