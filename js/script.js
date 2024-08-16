@@ -738,8 +738,6 @@ function plus(qty) {
     return;
   } else {
     input1.value = parseInt(input1.value) + 1;
-
-   
   }
 }
 function plus2(qty) {
@@ -749,8 +747,6 @@ function plus2(qty) {
     return;
   } else {
     input1.value = parseInt(input1.value) + 1;
-
-   
   }
 }
 
@@ -781,7 +777,6 @@ function addToCartmain(pid) {
     if (this.readyState == 4 && this.status == 200) {
       const res = this.responseText;
       if (res == "success") {
-       
         Swal.fire({
           icon: "success",
           title: "Product Added Successfully",
@@ -791,7 +786,6 @@ function addToCartmain(pid) {
 
         $("#cartItems").load(location.href + " #cartItems");
       } else {
-        myModal.hide();
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -881,7 +875,6 @@ function singleProductView(pid) {
   const pidd = pid;
 
   window.location.href = "singleProductView.php?pid=" + pid;
-  
 }
 
 // payment functions
@@ -910,18 +903,16 @@ function payNow(oNum, tot) {
   request.send(form);
 }
 
-function buyNow(pid){
+function buyNow(pid) {
   const cbody = document.getElementById("buyNowContent");
   const req = new XMLHttpRequest();
   req.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       cbody.innerHTML = this.responseText;
-      
     }
   };
-  req.open("GET", "buyNowProcess.php?pid="+pid, true);
+  req.open("GET", "buyNowProcess.php?pid=" + pid, true);
   req.send();
-
 }
 
 function orderConfirm() {
@@ -970,7 +961,7 @@ function payFromOders(onum) {
   request.send();
 }
 
-function buyNowContinue(pid, onum){
+function buyNowContinue(pid, onum) {
   const qty = document.getElementById("cartInputQty2");
   const form = new FormData();
   form.append("pid", pid);
@@ -982,16 +973,150 @@ function buyNowContinue(pid, onum){
       if (this.responseText == "success") {
         window.location.href = "paymentOptions.php";
       } else {
-        alert(this.responseText);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: this.responseText,
+        });
       }
     }
   };
   request.open("POST", "buyNowContinueProcess.php", true);
   request.send(form);
-   
+}
+function cardPaymentConfirm() {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        window.location.href = "thankYou.php";
+      } else {
+        alert(this.responseText);
+      }
+    }
+  };
+  request.open("GET", "cardPaymentConfirmProcess.php", true);
+  request.send();
+}
 
+function cardPay(id) {
+  var qty = document.getElementById("cQty").innerHTML;
 
+  var request = new XMLHttpRequest();
 
+  request.onreadystatechange = function () {
+    if ((request.status == 200) & (request.readyState == 4)) {
+      var response = request.responseText;
+      console.log(response);
+
+      var obj = JSON.parse(response);
+
+      var mail = obj["umail"];
+      var amount = obj["amount"];
+
+      if (response == 0) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "warning",
+          title: "This Product Is Out Of Stock",
+        });
+      } else if (response == 1) {
+        showAlert("Error", "Please Login.", "error").then(() => {
+          window.location = "index.php";
+        });
+      } else if (response == 2) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "warning",
+          title: "Update Your Profile before Proceeding",
+        });
+      } else {
+        // Payment completed. It can be a successful failure.
+        payhere.onCompleted = function onCompleted(orderId) {
+          console.log("Payment completed. OrderID:" + orderId);
+          cardPaymentConfirm();
+
+          showAlert(
+            "Success",
+            "Payment completed. OrderID:" + orderId,
+            "success"
+          ).then(() => {
+            cardPaymentConfirm();
+            saveInvoice(orderId, id, mail, amount, qty);
+          });
+
+          alert("Payment completed. OrderID:" + orderId);
+          saveInvoice(orderId, id, mail, amount, qty);
+        };
+
+        // Payment window closed
+        payhere.onDismissed = function onDismissed() {
+          // Note: Prompt user to pay again or show an error page
+          console.log("Payment dismissed");
+        };
+
+        // Error occurred
+        payhere.onError = function onError(error) {
+          // Note: show an error page
+          console.log("Error:" + error);
+        };
+
+        // Put the payment variables here
+        var payment = {
+          sandbox: true,
+          merchant_id: obj["mid"], // Replace your Merchant ID
+          return_url: "http://localhost/eshop/cashOndelivery.php?id=" + id, // Important
+          cancel_url: "http://localhost/eshop/cashOndelivery.php?id=" + id, // Important
+          notify_url: "http://sample.com/notify",
+          order_id: obj["id"],
+          items: obj["item"],
+          amount: amount + ".00",
+          currency: "LKR",
+          hash: obj["hash"], // *Replace with generated hash retrieved from backend
+          first_name: obj["fname"],
+          last_name: obj["lname"],
+          email: mail,
+          phone: obj["mobile"],
+          address: obj["address"],
+          city: obj["city"],
+          country: "Sri Lanka",
+          delivery_address: obj["address"],
+          delivery_city: obj["city"],
+          delivery_country: "Sri Lanka",
+          custom_1: "",
+          custom_2: "",
+        };
+
+        // Show the payhere.js popup, when "PayHere Pay" is clicked
+        // document.getElementById('payhere-payment').onclick = function (e) {
+        payhere.startPayment(payment);
+        // };
+      }
+    }
+  };
+
+  request.open("GET", "cardPaymentProcess.php?idd=" + id + "&qty=" + qty, true);
+  request.send();
 }
 
 // end of payment functions
@@ -1012,13 +1137,15 @@ function viewFromOrders(onum) {
 }
 
 function productReview(pid, onum) {
-  const url = "productReview.php?pid=" + encodeURIComponent(pid) + "&onum=" + encodeURIComponent(onum);
+  const url =
+    "productReview.php?pid=" +
+    encodeURIComponent(pid) +
+    "&onum=" +
+    encodeURIComponent(onum);
   window.location.href = url;
 }
 function addReview(pid, onum) {
- 
   const review = document.getElementById("review");
-  
 
   const form = new FormData();
   form.append("pid", pid);
@@ -1031,10 +1158,7 @@ function addReview(pid, onum) {
     if (this.readyState == 4 && this.status == 200) {
       const res = this.responseText;
       if (res == "success") {
-
-        
-       window.location.reload();
-        
+        window.location.reload();
       } else {
         alert(res);
       }
@@ -1044,3 +1168,158 @@ function addReview(pid, onum) {
   req.send(form);
 }
 
+function blockUser(uid) {
+  const re = new XMLHttpRequest();
+  re.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      const res = this.responseText;
+      if (res == "success") {
+        $("#userTable").load(location.href + " #userTable");
+      } else {
+        alert(res);
+      }
+    }
+  };
+  re.open("GET", "blockUserProcess.php?uid=" + uid, true);
+  re.send();
+}
+
+// admin functions
+function viewOrder(onum) {
+  const offBody = document.getElementById("off-content");
+
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      offBody.innerHTML = this.responseText;
+    }
+  };
+  request.open("GET", "viewOrderProcess.php?onum=" + onum, true);
+  request.send();
+}
+
+function orderShipping(onum) {
+  const offBody = document.getElementById("off-content");
+  const loading = document.getElementById("loading");
+
+  offBody.className = "d-none";
+  loading.className =
+    "loding h-100 d-flex flex-column justify-content-center align-items-center d-block";
+
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.responseText == "success") {
+        offBody.className = "d-block";
+        loading.className = "d-none";
+        $("#oTab").load(location.href + " #oTab");
+        viewOrder(onum);
+        window.print();
+      } else {
+        console.log(this.responseText);
+      }
+    }
+  };
+  request.open("GET", "orderShippingProcess.php?onum=" + onum, true);
+  request.send();
+}
+
+function orderRecived(onum) {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Your Order already Recived",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sure!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+
+      const request = new XMLHttpRequest();
+      request.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          if (this.responseText == "success") {
+            $("#cardCont").load(location.href + " #cardCont");
+            $("#oTabC").load(location.href + " #oTabC");
+            Swal.fire({
+              title: "Thank You!",
+              text: "Your Order Recived Successfully!",
+              icon: "success"
+            });
+            
+          } else {
+            console.log(this.responseText);
+          }
+        }
+      };
+      request.open("GET", "orderRecivedProcess.php?onum=" + onum, true);
+      request.send();
+
+
+
+      
+    }
+  });
+}
+
+function filterOrder(){
+  const cat = document.getElementById("filterOrder").value; 
+  const otabel = document.getElementById("newOtable");
+
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      
+      otabel.innerHTML =this.responseText;
+    }
+  };
+  request.open("GET", "filterOrderProcess.php?cat=" + cat, true);
+  request.send();
+}
+
+function viewUser(uid) {
+
+  const viewContent = document.getElementById("viewUsreCon");
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      viewContent.innerHTML = this.responseText;
+    }
+  };
+  req.open("GET", "viewUserProcess.php?uid=" + uid, true);
+  req.send();
+
+
+
+}
+function oSearch(){
+  const searchKey = document.getElementById("oSearch").value;
+  const otabel = document.getElementById("newOtable");
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      
+      otabel.innerHTML =this.responseText;
+    }
+  };
+  req.open("GET", "oSearchProcess.php?searchKey=" + searchKey, true);
+  req.send();
+}
+function uSearch(){
+  const searchKey = document.getElementById("searchUser").value;
+  const uTabel = document.getElementById("uTBody");
+
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      
+      uTabel.innerHTML =this.responseText;
+    }
+  };
+  req.open("GET", "uSearchProcess.php?searchKey=" + searchKey, true);
+  req.send();
+
+}

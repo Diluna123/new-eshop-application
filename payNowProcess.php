@@ -23,7 +23,7 @@ $_SESSION["orderNum"] = $orderNum;
 $cartP = Database::search("SELECT * FROM `cart` WHERE `cutomer_details_id` = '" . $_SESSION["user"]["id"] . "' AND `cart_s` = '1'");
 $cartNum = $cartP->num_rows;
 if ($cartNum > 0) {
-    Database::iud("INSERT INTO `invoice` (`order_num`, `date`, `total`, `shipping_fees`, `cutomer_details_id` ,`order_status_id`, `pay_method_mid`) VALUES ('$orderNum', '$date', '$tot', '300', '" . $_SESSION["user"]["id"] . "', '1', '1')");
+    Database::iud("INSERT INTO `invoice` (`order_num`, `date`, `total`, `shipping_fees`, `cutomer_details_id` ,`order_status_id`, `pay_method_mid`,`ad_order_s_ad_o_s`) VALUES ('$orderNum', '$date', '$tot', '300', '" . $_SESSION["user"]["id"] . "', '1', '1','1')");
     for ($x = 0; $x < $cartP->num_rows; $x++) {
         $cartData = $cartP->fetch_assoc();
         $productRs = Database::search("SELECT * FROM `products` WHERE `p_id` = '" . $cartData["products_p_id"] . "'");

@@ -273,6 +273,7 @@ session_start();
 
 <body>
 
+
     <!-- nav bar over -->
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -369,11 +370,12 @@ session_start();
         </div>
     </div> -->
     <section class="herosec container">
+        
 
 
         <div id="carouselExampleFade" class="carousel slide carousel-fade mt-2 mb-5" data-bs-ride="carousel" data-bs-interval="2000">
             <div class="carousel-inner">
-                <div class="carousel-item active" >
+                <div class="carousel-item active">
                     <img src="img/slid2.jpg" height="550px" class="d-block w-100 " alt="...">
                 </div>
                 <div class="carousel-item">

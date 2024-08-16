@@ -192,6 +192,7 @@
                                                                                         </div>
                                                                                         <div class="col-4"> <label for="" class="text-secondary">Date :</label></div>
                                                                                         <div class="col-4"> <label for="" class="text-secondary">Price:</label></div>
+
                                                                                     </div>
                                                                                     <div class="row d-flex align-items-center">
                                                                                         <div class="col-4">
@@ -199,6 +200,7 @@
                                                                                         </div>
                                                                                         <div class="col-4"> <label for="" class="text-warning"><?php echo $data["date"] ?></label></div>
                                                                                         <div class="col-4"> <label for="" class="text-warning">Rs. <?php echo $data["total"] ?></label></div>
+
                                                                                     </div>
 
                                                                                 </div>
@@ -249,7 +251,34 @@
 
                                                                                 </div>
                                                                                 <div class="row">
-                                                                                    <div class="col-12 d-flex justify-content-end">
+                                                                                    <div class="col-2 d-flex align-items-center">
+                                                                                        <?php
+                                                                                         if($data["ad_order_s_ad_o_s"] == 1){
+                                                                                            ?>
+                                                                                            <h5 class="text-warning fw-lighter"><i>Processing</i></h5>
+
+                                                                                            <?php
+
+                                                                                         }else if($data["ad_order_s_ad_o_s"] == 2){
+                                                                                            ?>
+                                                                                            <h5 class="text-warning fw-lighter"><i>Shiped</i></h5>
+                                                                                            
+                                                                                            <?php
+
+                                                                                         }else if($data["ad_order_s_ad_o_s"] == 3){
+                                                                                            ?>
+                                                                                            <h5 class="text-warning fw-lighter"><i>Completed</i></h5>
+                                                                                            <?php
+                                                                                             
+                                                                                         }else{
+
+                                                                                         }
+                                                                                        
+                                                                                        
+                                                                                        ?>
+                                                                                        
+                                                                                    </div>
+                                                                                    <div class="col-10 d-flex justify-content-end">
 
                                                                                         <button class="btn btn-warning rounded-4" onclick="viewFromOrders('<?php echo $data['order_num'] ?>')">View</button>
                                                                                     </div>
@@ -304,11 +333,11 @@
                                                                                     <div class="col-4"> <label for="" class="text-secondary">Price:</label></div>
                                                                                 </div>
                                                                                 <div class="row d-flex align-items-center">
-                                                                                    <div class="col-lg-4">
+                                                                                    <div class="col-4">
                                                                                         <label for="" class="text-secondary">#<span class="text-warning"><?php echo $data["order_num"] ?></span> </label>
                                                                                     </div>
-                                                                                    <div class="col-lg-4"> <label for="" class="text-warning"><?php echo $data["date"] ?></label></div>
-                                                                                    <div class="col-lg-4"> <label for="" class="text-warning">Rs. <?php echo $data["total"] ?></label></div>
+                                                                                    <div class="col-4"> <label for="" class="text-warning"><?php echo $data["date"] ?></label></div>
+                                                                                    <div class="col-4"> <label for="" class="text-warning">Rs. <?php echo $data["total"] ?></label></div>
                                                                                 </div>
 
                                                                             </div>
@@ -489,17 +518,10 @@
                                                                                 } else {
 
                                                                                     Database::iud("UPDATE `invoice` SET `order_status_id` = '4' WHERE `order_num` = '" . $data["order_num"] . "'");
-
-
-                                                                                    
-
-
-
-
                                                                                 }
 
 
-?>
+                                                                                        ?>
 
 
                                                                                                                 </div>
